@@ -27,7 +27,7 @@ public class UserService {
         if (repository.existsByEmail(user.getEmail())) {
             throw new RuntimeException("Пользователь с таким email уже существует");
         }
-
+        user.setActive(true);
         return save(user);
     }
 

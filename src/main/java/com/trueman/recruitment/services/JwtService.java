@@ -21,7 +21,6 @@ public class JwtService {
     @Value("${token.signing.key}")
     private String jwtSigningKey;
 
-
     public String extractUserName(String token) {
         return extractClaim(token, Claims::getSubject);
     }
@@ -62,8 +61,9 @@ public class JwtService {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parser().setSigningKey(getSigningKey()).parseClaimsJws(token).getBody();
-    }
+        return Jwts.parser().setSigningKey(getSigningKey()).build().parseClaimsJws(token)
+                .getBody();
+    } ////////////////
 
     private Key getSigningKey() {
         byte[] keyBytes = Decoders.BASE64.decode(jwtSigningKey);
