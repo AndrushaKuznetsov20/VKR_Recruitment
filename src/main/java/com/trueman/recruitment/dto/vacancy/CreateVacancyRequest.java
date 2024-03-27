@@ -25,10 +25,4 @@ public class CreateVacancyRequest {
     @NotBlank(message = "Условия и требования к вакансии не могут быть пустыми")
     private String conditions_and_requirements;
 
-//    @Schema(description = "Статус вакансии")
-//    private String status_vacancy;
-
-//    @Schema(description = "Идентификатор пользователя")
-//    private User user;
-
 }

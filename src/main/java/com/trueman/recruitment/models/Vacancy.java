@@ -1,5 +1,6 @@
 package com.trueman.recruitment.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jdk.jfr.Description;
 import lombok.AllArgsConstructor;
@@ -31,7 +32,8 @@ public class Vacancy {
     private String status_vacancy;
 
     @Description("Пользователь, создавший данную вакансию")
-    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    @JsonIgnore
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 }
