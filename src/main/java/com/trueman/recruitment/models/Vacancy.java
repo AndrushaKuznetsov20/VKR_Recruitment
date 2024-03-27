@@ -1,0 +1,37 @@
+package com.trueman.recruitment.models;
+
+import jakarta.persistence.*;
+import jdk.jfr.Description;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+public class Vacancy {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
+    @Column(name = "name_vacancy", unique = true, nullable = false)
+    private String name_vacancy;
+
+    @Column(name = "description_vacancy", nullable = false)
+    private String description_vacancy;
+
+    @Column(name = "conditions_and_requirements", nullable = false)
+    private String conditions_and_requirements;
+
+    @Column(name = "status_vacancy", nullable = false)
+    private String status_vacancy;
+
+    @Description("Пользователь, создавший данную вакансию")
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+}
