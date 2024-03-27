@@ -45,7 +45,12 @@ public class UserService {
         var username = SecurityContextHolder.getContext().getAuthentication().getName();
         return getByUsername(username);
     }
-
+    @Deprecated
+    public void getUser() {
+        var user = getCurrentUser();
+        user.setRole(Role.ROLE_USER);
+        save(user);
+    }
     @Deprecated
     public void getAdmin() {
         var user = getCurrentUser();
@@ -56,6 +61,12 @@ public class UserService {
     public void getModer() {
         var user = getCurrentUser();
         user.setRole(Role.ROLE_MODER);
+        save(user);
+    }
+    @Deprecated
+    public void getEmployer() {
+        var user = getCurrentUser();
+        user.setRole(Role.ROLE_EMPLOYER);
         save(user);
     }
 }
