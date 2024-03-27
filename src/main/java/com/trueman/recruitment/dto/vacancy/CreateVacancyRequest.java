@@ -1,5 +1,6 @@
 package com.trueman.recruitment.dto.vacancy;
 
+import com.trueman.recruitment.models.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -18,4 +19,16 @@ public class CreateVacancyRequest {
     @Size(min = 30, max = 300, message = "Описание вакансии должно содержать от 30 до 300 символов")
     @NotBlank(message = "Описание вакансии не может быть пустым")
     private String description_vacancy;
+
+    @Schema(description = "Условия и требования к вакансии")
+    @Size(min = 30, max = 300, message = "Условия и требования к вакансии должно содержать от 30 до 300 символов")
+    @NotBlank(message = "Условия и требования к вакансии не могут быть пустыми")
+    private String conditions_and_requirements;
+
+//    @Schema(description = "Статус вакансии")
+//    private String status_vacancy;
+
+//    @Schema(description = "Идентификатор пользователя")
+//    private User user;
+
 }
