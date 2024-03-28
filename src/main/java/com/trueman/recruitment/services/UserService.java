@@ -1,6 +1,9 @@
 package com.trueman.recruitment.services;
 
+import com.trueman.recruitment.dto.user.ListResponse;
+import com.trueman.recruitment.dto.user.ReadRequest;
 import com.trueman.recruitment.models.User;
+import com.trueman.recruitment.models.Vacancy;
 import com.trueman.recruitment.models.enums.Role;
 import com.trueman.recruitment.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,11 +12,37 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository repository;
+
+    public ListResponse getAllUsers() {
+        List<User> users = repository.findAll();
+        List<ReadRequest> userDTOList = new ArrayList<>();
+
+        for (User user : users) {
+            ReadRequest userDTO = new ReadRequest();
+            userDTO.setId(user.getId());
+            userDTO.setUsername(user.getUsername());
+            userDTO.setPassword(user.getPassword());
+            userDTO.setEmail(user.getEmail());
+            userDTO.setActive(user.isActive());
+            userDTO.setRole(user.getRole());
+
+            userDTOList.add(userDTO);
+        }
+
+        ListResponse userListDTO = new ListResponse();
+        userListDTO.setUsers(userDTOList);
+
+        return userListDTO;
+
+    }
 
     public User save(User user) {
         return repository.save(user);
@@ -21,11 +50,11 @@ public class UserService {
 
     public User create(User user) {
         if (repository.existsByUsername(user.getUsername())) {
-            throw new RuntimeException("Пользователь с таким именем уже существует");
+            throw new RuntimeException("Пользователь с таким именем уже существует !");
         }
 
         if (repository.existsByEmail(user.getEmail())) {
-            throw new RuntimeException("Пользователь с таким email уже существует");
+            throw new RuntimeException("Пользователь с таким email уже существует !");
         }
         user.setActive(true);
         return save(user);
@@ -33,7 +62,7 @@ public class UserService {
 
     public User getByUsername(String username) {
         return repository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден"));
+                .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден !"));
 
     }
 
