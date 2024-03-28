@@ -1,12 +1,11 @@
 package com.trueman.recruitment.services;
 
-import com.trueman.recruitment.dto.JwtAuthenticationResponse;
-import com.trueman.recruitment.dto.SignInRequest;
-import com.trueman.recruitment.dto.SignUpRequest;
+import com.trueman.recruitment.dto.auth.JwtAuthenticationResponse;
+import com.trueman.recruitment.dto.auth.SignInRequest;
+import com.trueman.recruitment.dto.auth.SignUpRequest;
 import com.trueman.recruitment.models.User;
 import com.trueman.recruitment.models.enums.Role;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;

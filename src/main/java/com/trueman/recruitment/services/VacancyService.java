@@ -1,8 +1,9 @@
 package com.trueman.recruitment.services;
 
-import com.trueman.recruitment.dto.vacancy.CreateVacancyRequest;
-import com.trueman.recruitment.dto.vacancy.VacancyDTO;
-import com.trueman.recruitment.dto.vacancy.VacancyListDTO;
+import com.trueman.recruitment.dto.vacancy.CreateRequest;
+import com.trueman.recruitment.dto.vacancy.ReadRequest;
+import com.trueman.recruitment.dto.vacancy.ListResponse;
+import com.trueman.recruitment.dto.vacancy.UpdateRequest;
 import com.trueman.recruitment.models.User;
 import com.trueman.recruitment.models.Vacancy;
 import com.trueman.recruitment.repositories.VacancyRepository;
@@ -19,12 +20,12 @@ public class VacancyService {
     private final UserService userService;
     private final VacancyRepository vacancyRepository;
 
-    public VacancyListDTO getAllVacancies() {
+    public ListResponse getAllVacancies() {
         List<Vacancy> vacancies = vacancyRepository.findAll();
-        List<VacancyDTO> vacancyDTOList = new ArrayList<>();
+        List<ReadRequest> vacancyDTOList = new ArrayList<>();
 
         for (Vacancy vacancy : vacancies) {
-            VacancyDTO vacancyDTO = new VacancyDTO();
+            ReadRequest vacancyDTO = new ReadRequest();
             vacancyDTO.setId(vacancy.getId());
             vacancyDTO.setName_vacancy(vacancy.getName_vacancy());
             vacancyDTO.setDescription_vacancy(vacancy.getDescription_vacancy());
@@ -33,13 +34,13 @@ public class VacancyService {
             vacancyDTOList.add(vacancyDTO);
         }
 
-        VacancyListDTO vacancyListDTO = new VacancyListDTO();
+        ListResponse vacancyListDTO = new ListResponse();
         vacancyListDTO.setVacancies(vacancyDTOList);
 
         return vacancyListDTO;
 
     }
-    public Vacancy createVacancy(CreateVacancyRequest request)
+    public Vacancy createVacancy(CreateRequest request)
     {
         User user = userService.getCurrentUser();
         String status_vacancy_default = "Не модерировано!";
@@ -51,6 +52,17 @@ public class VacancyService {
                 .status_vacancy(status_vacancy_default)
                 .user(user)
                 .build();
+
+        return vacancyRepository.save(vacancy);
+    }
+
+    public Vacancy updateVacancy(Long vacancyId, UpdateRequest updateRequest)
+    {
+        Vacancy vacancy = vacancyRepository.findById(vacancyId).orElse(null);
+
+        vacancy.setName_vacancy(updateRequest.getName_vacancy());
+        vacancy.setDescription_vacancy(updateRequest.getDescription_vacancy());
+        vacancy.setConditions_and_requirements(updateRequest.getConditions_and_requirements());
 
         return vacancyRepository.save(vacancy);
     }

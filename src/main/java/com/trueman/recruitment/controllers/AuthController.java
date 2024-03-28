@@ -1,17 +1,14 @@
 package com.trueman.recruitment.controllers;
 
-import com.trueman.recruitment.dto.JwtAuthenticationResponse;
-import com.trueman.recruitment.dto.SignInRequest;
-import com.trueman.recruitment.dto.SignUpRequest;
-import com.trueman.recruitment.models.User;
+import com.trueman.recruitment.dto.auth.JwtAuthenticationResponse;
+import com.trueman.recruitment.dto.auth.SignInRequest;
+import com.trueman.recruitment.dto.auth.SignUpRequest;
 import com.trueman.recruitment.services.AuthenticationService;
 import com.trueman.recruitment.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 

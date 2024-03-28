@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-@Schema(description = "Список вакансий")
-public class VacancyListDTO {
-    private List<VacancyDTO> vacancies;
+@Schema(description = "Ответ в виде списка вакансий")
+public class ListResponse {
+    private List<ReadRequest> vacancies;
 }
