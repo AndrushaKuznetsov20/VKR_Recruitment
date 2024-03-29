@@ -1,7 +1,9 @@
 package com.trueman.recruitment.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.trueman.recruitment.models.enums.Role;
 import jakarta.persistence.*;
+import jdk.jfr.Description;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -44,8 +46,9 @@ public class User implements UserDetails
     @Column(name = "role", nullable = false)
     private Role role;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Vacancy> vacancies = new HashSet<>();
+//    @Description("Список вакансий на которые пользователь оставил отклики")
+//    @ManyToMany
+//    private List<Vacancy> listVacancy;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities()

@@ -29,8 +29,10 @@ public class VacancyService {
             vacancyDTO.setId(vacancy.getId());
             vacancyDTO.setName_vacancy(vacancy.getName_vacancy());
             vacancyDTO.setDescription_vacancy(vacancy.getDescription_vacancy());
-            vacancyDTO.setStatus_vacancy(vacancy.getConditions_and_requirements());
+            vacancyDTO.setConditions_and_requirements(vacancy.getConditions_and_requirements());
+            vacancyDTO.setStatus_vacancy(vacancy.getStatus_vacancy());
             vacancyDTO.setUser(vacancy.getUser());
+            vacancyDTO.setUserList(vacancy.getUserList());
             vacancyDTOList.add(vacancyDTO);
         }
 

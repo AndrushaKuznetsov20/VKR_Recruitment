@@ -59,6 +59,8 @@ public class SecurityConfiguration {
                         .requestMatchers("/user/changeRole").hasRole("ADMIN")
                         .requestMatchers("/user/update").permitAll()
 
+                        .requestMatchers("/response/create").hasRole("EMPLOYER")
+                        .requestMatchers("/response/myResponse").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider())

@@ -8,6 +8,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -36,4 +40,9 @@ public class Vacancy {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @Description("Список пользователей, которые оставили отклики на данную вакансию")
+    @ManyToMany
+    private List<User> userList;
+
 }
