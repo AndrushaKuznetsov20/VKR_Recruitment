@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -46,8 +47,18 @@ public class SecurityConfiguration {
                 }))
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/vacancy/**").authenticated()
-                        .requestMatchers("/user/**").hasRole("ADMIN")
+
+                        .requestMatchers("/vacancy/list").permitAll()
+                        .requestMatchers("/vacancy/create").hasRole("EMPLOYER")
+                        .requestMatchers("/vacancy/update").hasRole("EMPLOYER")
+                        .requestMatchers("/vacancy/delete").hasRole("EMPLOYER")
+
+                        .requestMatchers("/user/list").hasRole("ADMIN")
+                        .requestMatchers("/user/block").hasRole("ADMIN")
+                        .requestMatchers("/user/inBlock").hasRole("ADMIN")
+                        .requestMatchers("/user/changeRole").hasRole("ADMIN")
+                        .requestMatchers("/user/update").permitAll()
+
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider())

@@ -50,51 +50,51 @@ public class UserController {
     }
     @Operation(summary = "Блокировка пользователя")
     @PutMapping("/block/{userId}")
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> userBlock(@PathVariable Long userId)
     {
         User user = userRepository.findById(userId).orElse(null);
         user.setActive(false);
         userRepository.save(user);
-        return ResponseEntity.ok("Пользователь успешно заблокирован !");
+        return ResponseEntity.ok("Пользователь успешно заблокирован!");
     }
 
     @Operation(summary = "Разблокировка пользователя")
     @PutMapping("/inBlock/{userId}")
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> userInBlock(@PathVariable Long userId)
     {
         User user = userRepository.findById(userId).orElse(null);
         user.setActive(true);
         userRepository.save(user);
-        return ResponseEntity.ok("Пользователь успешно разблокирован");
+        return ResponseEntity.ok("Пользователь успешно разблокирован!");
     }
 
     @Operation(summary = "Назначение роли пользователю")
     @PutMapping("/changeRole/{userId}/{userRole}")
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> userChangeRole(@PathVariable Long userId, @PathVariable String userRole)
     {
         User user = userRepository.findById(userId).orElse(null);
 
-        if(userRole.equals("ROLE_USER"))
+        if(userRole.equals("USER"))
         {
             user.setRole(Role.ROLE_USER);
             userRepository.save(user);
             return ResponseEntity.ok("Роль 'Пользователь' успешно назначена!");
         }
-        else if(userRole.equals("ROLE_EMPLOYER"))
+        else if(userRole.equals("EMPLOYER"))
         {
             user.setRole(Role.ROLE_EMPLOYER);
             userRepository.save(user);
             return ResponseEntity.ok("Роль 'Работодатель' успешно назначена!");
         }
-        else if (userRole.equals("ROLE_MODER")) {
+        else if (userRole.equals("MODER")) {
             user.setRole(Role.ROLE_MODER);
             userRepository.save(user);
             return ResponseEntity.ok("Роль 'Модератор' успешно назначена!");
         }
-        else if (userRole.equals("ROLE_ADMIN")) {
+        else if (userRole.equals("ADMIN")) {
             user.setRole(Role.ROLE_ADMIN);
             userRepository.save(user);
             return ResponseEntity.ok("Роль 'Администратор' успешно назначена!");

@@ -17,7 +17,7 @@ public class AuthenticationService {
 
     private final UserService userService;
     private final JwtService jwtService;
-    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoderService passwordEncoderService;
     private final AuthenticationManager authenticationManager;
 
     public JwtAuthenticationResponse signUp(SignUpRequest request) {
@@ -25,7 +25,7 @@ public class AuthenticationService {
         var user = User.builder()
                 .username(request.getUsername())
                 .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
+                .password(passwordEncoderService.passwordEncoder().encode(request.getPassword()))
                 .role(Role.ROLE_USER)
                 .build();
 
