@@ -2,6 +2,7 @@ package com.trueman.recruitment.services;
 
 import com.trueman.recruitment.dto.user.ListResponse;
 import com.trueman.recruitment.dto.user.ReadRequest;
+import com.trueman.recruitment.dto.user.UpdateRequest;
 import com.trueman.recruitment.models.User;
 import com.trueman.recruitment.models.Vacancy;
 import com.trueman.recruitment.models.enums.Role;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,6 +22,7 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository repository;
+    private final PasswordEncoder passwordEncoder;
 
     public ListResponse getAllUsers() {
         List<User> users = repository.findAll();
@@ -60,6 +63,16 @@ public class UserService {
         return save(user);
     }
 
+    public User update(Long userId, UpdateRequest updateRequest)
+    {
+        User user = repository.findById(userId).orElse(null);
+
+        user.setUsername(updateRequest.getUsername());
+        user.setPassword(passwordEncoder.encode(updateRequest.getPassword()));
+        user.setEmail(updateRequest.getEmail());
+
+        return repository.save(user);
+    }
     public User getByUsername(String username) {
         return repository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден !"));
