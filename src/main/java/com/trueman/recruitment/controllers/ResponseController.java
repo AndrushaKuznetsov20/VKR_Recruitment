@@ -24,8 +24,10 @@ public class ResponseController {
 
     private final ResponseService responseService;
     private final VacancyRepository vacancyRepository;
+
     @Operation(summary = "Метод получения списка пользователей, которые откликнулись на определённую вакансию")
     @GetMapping("/listUsers/{vacancyId}")
+    @PreAuthorize("hasRole('EMPLOYER')")
     public ResponseEntity<List<User>> listUsers(@PathVariable Long vacancyId)
     {
         Vacancy vacancy = vacancyRepository.findById(vacancyId).orElse(null);
@@ -33,22 +35,21 @@ public class ResponseController {
         userList = vacancy.getUserList();
         return new ResponseEntity<>(userList,HttpStatus.OK);
     }
-    @Operation(summary = "Метод создания отклика")
-    @PostMapping("/create/{userId}/{vacancyId}")
-    @PreAuthorize("hasRole('EMPLOYER')")
-    public ResponseEntity<String> createResponse(@PathVariable Long userId, @PathVariable Long vacancyId)
-    {
-        responseService.createResponse(userId, vacancyId);
-        return ResponseEntity.ok("Отклик успешно добавлен");
-    }
 
     @Operation(summary = "Метод создания отклика")
-    @GetMapping("/myResponse/{userId}/")
-    @PreAuthorize("hasRole('EMPLOYER')")
-    public ResponseEntity<List<Vacancy>> userResponses(@PathVariable Long userId)
+    @PostMapping("/create/{userId}/{vacancyId}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<String> createResponse(@PathVariable Long userId, @PathVariable Long vacancyId)
     {
-        List<Vacancy> vacancies;
-        vacancies = vacancyRepository.findVacanciesByUserId(userId);
-        return new ResponseEntity<>(vacancies, HttpStatus.OK);
+        return responseService.createResponse(userId, vacancyId);
     }
+
+    @Operation(summary = "Метод удаления отклика")
+    @DeleteMapping("/delete/{userId}/{vacancyId}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<String> deleteResponse(@PathVariable Long userId, @PathVariable Long vacancyId)
+    {
+        return responseService.deleteResponse(userId, vacancyId);
+    }
+
 }

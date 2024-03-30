@@ -3,16 +3,14 @@ package com.trueman.recruitment.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jdk.jfr.Description;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -42,6 +40,7 @@ public class Vacancy {
     private User user;
 
     @Description("Список пользователей, которые оставили отклики на данную вакансию")
+    @JsonIgnore
     @ManyToMany
     private List<User> userList;
 

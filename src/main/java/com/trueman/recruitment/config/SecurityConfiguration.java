@@ -54,14 +54,15 @@ public class SecurityConfiguration {
                         .requestMatchers("/vacancy/delete").hasRole("EMPLOYER")
 
                         .requestMatchers("/user/list").hasRole("ADMIN")
+                        .requestMatchers("/user/listVacancy").hasRole("USER")
                         .requestMatchers("/user/block").hasRole("ADMIN")
                         .requestMatchers("/user/inBlock").hasRole("ADMIN")
                         .requestMatchers("/user/changeRole").hasRole("ADMIN")
                         .requestMatchers("/user/update").permitAll()
 
-                        .requestMatchers("/response/create").hasRole("EMPLOYER")
+                        .requestMatchers("/response/create").hasRole("USER")
                         .requestMatchers("/response/myResponse").permitAll()
-                        .requestMatchers("/response/listUsers").permitAll()
+                        .requestMatchers("/response/listUsers").hasRole("EMPLOYER")
 
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))

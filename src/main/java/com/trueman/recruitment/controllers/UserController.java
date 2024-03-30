@@ -40,7 +40,7 @@ public class UserController {
 
     @Operation(summary = "Получение списка вакансий на которые определённый пользователь оставил отклики")
     @GetMapping("/listVacancy/{userId}")
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<List<Vacancy>> listVacancy(@PathVariable Long userId)
     {
         User user = userRepository.findById(userId).orElse(null);

@@ -28,6 +28,7 @@ public class VacancyController {
 
     @Operation(summary = "Получение списка вакансий")
     @GetMapping("/list")
+    @PreAuthorize("hasRole('MODER')")
     public ResponseEntity<ListResponse> getAllVacancies()
     {
         ListResponse vacancies;
