@@ -19,6 +19,7 @@ public class ResponseService {
         User user = userRepository.findById(userId).orElse(null);
 
         vacancy.getUserList().add(user);
+        user.getListVacancy().add(vacancy);
 
         vacancyRepository.save(vacancy);
         userRepository.save(user);

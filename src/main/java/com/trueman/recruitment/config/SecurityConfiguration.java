@@ -61,6 +61,8 @@ public class SecurityConfiguration {
 
                         .requestMatchers("/response/create").hasRole("EMPLOYER")
                         .requestMatchers("/response/myResponse").permitAll()
+                        .requestMatchers("/response/listUsers").permitAll()
+
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider())

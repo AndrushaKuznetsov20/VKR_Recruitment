@@ -1,5 +1,6 @@
 package com.trueman.recruitment.controllers;
 
+import com.trueman.recruitment.models.User;
 import com.trueman.recruitment.models.Vacancy;
 import com.trueman.recruitment.repositories.VacancyRepository;
 import com.trueman.recruitment.services.ResponseService;
@@ -23,7 +24,15 @@ public class ResponseController {
 
     private final ResponseService responseService;
     private final VacancyRepository vacancyRepository;
-//    @Operation(summary = "Метод получения списка откликов")
+    @Operation(summary = "Метод получения списка пользователей, которые откликнулись на определённую вакансию")
+    @GetMapping("/listUsers/{vacancyId}")
+    public ResponseEntity<List<User>> listUsers(@PathVariable Long vacancyId)
+    {
+        Vacancy vacancy = vacancyRepository.findById(vacancyId).orElse(null);
+        List<User> userList;
+        userList = vacancy.getUserList();
+        return new ResponseEntity<>(userList,HttpStatus.OK);
+    }
     @Operation(summary = "Метод создания отклика")
     @PostMapping("/create/{userId}/{vacancyId}")
     @PreAuthorize("hasRole('EMPLOYER')")
@@ -33,9 +42,9 @@ public class ResponseController {
         return ResponseEntity.ok("Отклик успешно добавлен");
     }
 
-//    @Operation(summary = "Метод создания отклика")
+    @Operation(summary = "Метод создания отклика")
     @GetMapping("/myResponse/{userId}/")
-//    @PreAuthorize("hasRole('EMPLOYER')")
+    @PreAuthorize("hasRole('EMPLOYER')")
     public ResponseEntity<List<Vacancy>> userResponses(@PathVariable Long userId)
     {
         List<Vacancy> vacancies;

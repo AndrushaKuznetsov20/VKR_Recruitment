@@ -3,6 +3,7 @@ package com.trueman.recruitment.controllers;
 import com.trueman.recruitment.dto.user.ListResponse;
 import com.trueman.recruitment.dto.user.UpdateRequest;
 import com.trueman.recruitment.models.User;
+import com.trueman.recruitment.models.Vacancy;
 import com.trueman.recruitment.models.enums.Role;
 import com.trueman.recruitment.repositories.UserRepository;
 import com.trueman.recruitment.services.UserService;
@@ -15,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:8092")
 @RestController
@@ -34,6 +37,18 @@ public class UserController {
         users = userService.getAllUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
+
+    @Operation(summary = "Получение списка вакансий на которые определённый пользователь оставил отклики")
+    @GetMapping("/listVacancy/{userId}")
+//    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<Vacancy>> listVacancy(@PathVariable Long userId)
+    {
+        User user = userRepository.findById(userId).orElse(null);
+        List<Vacancy> userVacancy;
+        userVacancy = user.getListVacancy();
+        return new ResponseEntity<>(userVacancy,HttpStatus.OK);
+    }
+
     @Operation(summary = "Обновление данных пользователя")
     @PutMapping("/update/{userId}")
     public ResponseEntity<String> userUpdate(@PathVariable Long userId,
