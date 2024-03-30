@@ -63,6 +63,8 @@ public class SecurityConfiguration {
                         .requestMatchers("/response/create").hasRole("USER")
                         .requestMatchers("/response/myResponse").permitAll()
                         .requestMatchers("/response/listUsers").hasRole("EMPLOYER")
+                        .requestMatchers("/response/listMyVacancies").permitAll()
+                        .requestMatchers("/response/listVacanciesStatusOk").permitAll()
 
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
