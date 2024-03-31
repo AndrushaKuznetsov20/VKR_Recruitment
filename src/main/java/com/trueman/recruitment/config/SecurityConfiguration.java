@@ -52,6 +52,10 @@ public class SecurityConfiguration {
                         .requestMatchers("/vacancy/create").hasRole("EMPLOYER")
                         .requestMatchers("/vacancy/update").hasRole("EMPLOYER")
                         .requestMatchers("/vacancy/delete").hasRole("EMPLOYER")
+                        .requestMatchers("/vacancy/listMyVacancies").permitAll()
+                        .requestMatchers("/vacancy/listVacanciesStatusOk").hasRole("EMPLOYER, USER")
+                        .requestMatchers("/vacancy/setStatusOk").hasRole("MODER")
+                        .requestMatchers("/vacancy/setStatusBlock").hasRole("MODER")
 
                         .requestMatchers("/user/list").hasRole("ADMIN")
                         .requestMatchers("/user/listVacancy").hasRole("USER")
@@ -61,10 +65,8 @@ public class SecurityConfiguration {
                         .requestMatchers("/user/update").permitAll()
 
                         .requestMatchers("/response/create").hasRole("USER")
-                        .requestMatchers("/response/myResponse").permitAll()
                         .requestMatchers("/response/listUsers").hasRole("EMPLOYER")
-                        .requestMatchers("/response/listMyVacancies").permitAll()
-                        .requestMatchers("/response/listVacanciesStatusOk").permitAll()
+                        .requestMatchers("/response/delete").hasRole("USER")
 
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))

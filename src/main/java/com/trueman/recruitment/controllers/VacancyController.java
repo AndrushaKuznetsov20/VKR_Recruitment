@@ -11,14 +11,12 @@ import com.trueman.recruitment.services.UserService;
 import com.trueman.recruitment.services.VacancyService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,7 +43,7 @@ public class VacancyController {
     }
     @Operation(summary = "Получение списка вакансий определённого пользователя")
     @GetMapping("/listMyVacancies")
-//    @PreAuthorize("hasRole('EMPLOYER')")
+    @PreAuthorize("hasRole('EMPLOYER')")
     public ResponseEntity<List<Vacancy>> listMyVacancies()
     {
         List<Vacancy> vacancies;
@@ -56,7 +54,7 @@ public class VacancyController {
 
     @Operation(summary = "Получение списка опубликованных вакансий")
     @GetMapping("/listVacanciesStatusOk")
-//    @PreAuthorize("hasRole('EMPLOYER')")
+    @PreAuthorize("hasRole('EMPLOYER','USER')")
     public ResponseEntity<List<Vacancy>> listVacanciesStatusOk()
     {
         List<Vacancy> vacancies;
@@ -107,7 +105,7 @@ public class VacancyController {
 
     @Operation(summary = "Публикация вакансии")
     @PutMapping("/setStatusOk/{vacancyId}")
-//    @PreAuthorize("hasRole('MODER')")
+    @PreAuthorize("hasRole('MODER')")
     public ResponseEntity<String> setStatusOk(@PathVariable("vacancyId") Long vacancyId) {
 
         String status_vacancy = "Опубликовано!";
@@ -121,7 +119,7 @@ public class VacancyController {
 
     @Operation(summary = "Блокировка вакансии")
     @PutMapping("/setStatusBlock/{vacancyId}")
-//    @PreAuthorize("hasRole('MODER')")
+    @PreAuthorize("hasRole('MODER')")
     public ResponseEntity<String> setStatusBlock(@PathVariable("vacancyId") Long vacancyId) {
 
         String status_vacancy = "Заблокировано!";
