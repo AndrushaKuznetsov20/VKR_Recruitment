@@ -68,6 +68,8 @@ public class SecurityConfiguration {
                         .requestMatchers("/response/listUsers").hasRole("EMPLOYER")
                         .requestMatchers("/response/delete").hasRole("USER")
 
+                        .requestMatchers("/message/**").permitAll()
+
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider())
