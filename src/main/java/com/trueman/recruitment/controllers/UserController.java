@@ -11,7 +11,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
@@ -33,25 +32,20 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ListResponse> getAllUsers()
     {
-        ListResponse users;
-        users = userService.getAllUsers();
-        return new ResponseEntity<>(users, HttpStatus.OK);
+        return userService.getAllUsers();
     }
 
     @Operation(summary = "Получение списка вакансий на которые определённый пользователь оставил отклики")
     @GetMapping("/listVacancy/{userId}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<List<Vacancy>> listVacancy(@PathVariable Long userId)
+    public ResponseEntity<List<Vacancy>> listVacancy(@PathVariable("userId") Long userId)
     {
-        User user = userRepository.findById(userId).orElse(null);
-        List<Vacancy> userVacancy;
-        userVacancy = user.getListVacancy();
-        return new ResponseEntity<>(userVacancy,HttpStatus.OK);
+        return userService.listVacancy(userId);
     }
 
     @Operation(summary = "Обновление данных пользователя")
     @PutMapping("/update/{userId}")
-    public ResponseEntity<String> userUpdate(@PathVariable Long userId,
+    public ResponseEntity<String> userUpdate(@PathVariable("userId") Long userId,
                                              @RequestBody @Valid UpdateRequest updateRequest, BindingResult bindingResult)
     {
         if(bindingResult.hasErrors())
@@ -66,57 +60,24 @@ public class UserController {
     @Operation(summary = "Блокировка пользователя")
     @PutMapping("/block/{userId}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<String> userBlock(@PathVariable Long userId)
+    public ResponseEntity<String> userBlock(@PathVariable("userId") Long userId)
     {
-        User user = userRepository.findById(userId).orElse(null);
-        user.setActive(false);
-        userRepository.save(user);
-        return ResponseEntity.ok("Пользователь успешно заблокирован!");
+        return userService.userBlock(userId);
     }
 
     @Operation(summary = "Разблокировка пользователя")
     @PutMapping("/inBlock/{userId}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<String> userInBlock(@PathVariable Long userId)
+    public ResponseEntity<String> userInBlock(@PathVariable("userId") Long userId)
     {
-        User user = userRepository.findById(userId).orElse(null);
-        user.setActive(true);
-        userRepository.save(user);
-        return ResponseEntity.ok("Пользователь успешно разблокирован!");
+        return userService.userInBlock(userId);
     }
 
     @Operation(summary = "Назначение роли пользователю")
     @PutMapping("/changeRole/{userId}/{userRole}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<String> userChangeRole(@PathVariable Long userId, @PathVariable String userRole)
+    public ResponseEntity<String> userChangeRole(@PathVariable("userId") Long userId, @PathVariable("userRole") String userRole)
     {
-        User user = userRepository.findById(userId).orElse(null);
-
-        if(userRole.equals("USER"))
-        {
-            user.setRole(Role.ROLE_USER);
-            userRepository.save(user);
-            return ResponseEntity.ok("Роль 'Пользователь' успешно назначена!");
-        }
-        else if(userRole.equals("EMPLOYER"))
-        {
-            user.setRole(Role.ROLE_EMPLOYER);
-            userRepository.save(user);
-            return ResponseEntity.ok("Роль 'Работодатель' успешно назначена!");
-        }
-        else if (userRole.equals("MODER")) {
-            user.setRole(Role.ROLE_MODER);
-            userRepository.save(user);
-            return ResponseEntity.ok("Роль 'Модератор' успешно назначена!");
-        }
-        else if (userRole.equals("ADMIN")) {
-            user.setRole(Role.ROLE_ADMIN);
-            userRepository.save(user);
-            return ResponseEntity.ok("Роль 'Администратор' успешно назначена!");
-        }
-        else
-        {
-            return ResponseEntity.badRequest().body("Ошибка!");
-        }
+        return userService.userChangeRole(userId, userRole);
     }
 }

@@ -1,6 +1,5 @@
 package com.trueman.recruitment.services;
 
-import com.trueman.recruitment.config.SecurityConfiguration;
 import com.trueman.recruitment.dto.user.ListResponse;
 import com.trueman.recruitment.dto.user.ReadRequest;
 import com.trueman.recruitment.dto.user.UpdateRequest;
@@ -9,12 +8,11 @@ import com.trueman.recruitment.models.Vacancy;
 import com.trueman.recruitment.models.enums.Role;
 import com.trueman.recruitment.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,11 +22,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UserRepository repository;
+    private final UserRepository userRepository;
     private final PasswordEncoderService passwordEncoderService;
 
-    public ListResponse getAllUsers() {
-        List<User> users = repository.findAll();
+    public ResponseEntity<ListResponse> getAllUsers() {
+        List<User> users = userRepository.findAll();
         List<ReadRequest> userDTOList = new ArrayList<>();
 
         for (User user : users) {
@@ -46,21 +44,28 @@ public class UserService {
         ListResponse userListDTO = new ListResponse();
         userListDTO.setUsers(userDTOList);
 
-        return userListDTO;
+        return new ResponseEntity<>(userListDTO, HttpStatus.OK);
 
     }
 
+    public ResponseEntity<List<Vacancy>> listVacancy(Long userId)
+    {
+        User user = userRepository.findById(userId).orElse(null);
+        List<Vacancy> userVacancy;
+        userVacancy = user.getListVacancy();
+        return new ResponseEntity<>(userVacancy,HttpStatus.OK);
+    }
     public User save(User user) {
-        return repository.save(user);
+        return userRepository.save(user);
     }
 
     public User create(User user) {
-        if (repository.existsByUsername(user.getUsername())) {
-            throw new RuntimeException("Пользователь с таким именем уже существует !");
+        if (userRepository.existsByUsername(user.getUsername())) {
+            throw new RuntimeException("Пользователь с таким именем уже существует!");
         }
 
-        if (repository.existsByEmail(user.getEmail())) {
-            throw new RuntimeException("Пользователь с таким email уже существует !");
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new RuntimeException("Пользователь с таким email уже существует!");
         }
         user.setActive(true);
         return save(user);
@@ -68,18 +73,66 @@ public class UserService {
 
     public User update(Long userId, UpdateRequest updateRequest)
     {
-        User user = repository.findById(userId).orElse(null);
+        User user = userRepository.findById(userId).orElse(null);
 
         user.setUsername(updateRequest.getUsername());
         user.setPassword(passwordEncoderService.passwordEncoder().encode(updateRequest.getPassword()));
         user.setEmail(updateRequest.getEmail());
 
-        return repository.save(user);
+        return userRepository.save(user);
     }
     public User getByUsername(String username) {
-        return repository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден !"));
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден "));
 
+    }
+
+    public ResponseEntity<String> userBlock(Long userId)
+    {
+        User user = userRepository.findById(userId).orElse(null);
+        user.setActive(false);
+        userRepository.save(user);
+        return ResponseEntity.ok("Пользователь успешно заблокирован!");
+    }
+
+    public ResponseEntity<String> userInBlock(Long userId)
+    {
+        User user = userRepository.findById(userId).orElse(null);
+        user.setActive(true);
+        userRepository.save(user);
+        return ResponseEntity.ok("Пользователь успешно разблокирован!");
+    }
+
+    public ResponseEntity<String> userChangeRole(Long userId, String userRole)
+    {
+        User user = userRepository.findById(userId).orElse(null);
+
+        if(userRole.equals("USER"))
+        {
+            user.setRole(Role.ROLE_USER);
+            userRepository.save(user);
+            return ResponseEntity.ok("Роль 'Пользователь' успешно назначена!");
+        }
+        else if(userRole.equals("EMPLOYER"))
+        {
+            user.setRole(Role.ROLE_EMPLOYER);
+            userRepository.save(user);
+            return ResponseEntity.ok("Роль 'Работодатель' успешно назначена!");
+        }
+        else if (userRole.equals("MODER")) {
+            user.setRole(Role.ROLE_MODER);
+            userRepository.save(user);
+            return ResponseEntity.ok("Роль 'Модератор' успешно назначена!");
+        }
+        else if (userRole.equals("ADMIN")) {
+            user.setRole(Role.ROLE_ADMIN);
+            userRepository.save(user);
+            return ResponseEntity.ok("Роль 'Администратор' успешно назначена!");
+        }
+        else
+        {
+            return ResponseEntity.badRequest().body("Ошибка!");
+        }
     }
 
     public UserDetailsService userDetailsService() {

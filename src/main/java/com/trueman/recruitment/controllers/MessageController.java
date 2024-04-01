@@ -22,14 +22,14 @@ public class MessageController {
 
     @Operation(summary = "Вывод истории чата двух пользователей")
     @GetMapping("/outputMessages/{senderId}/{receiverId}")
-    public ResponseEntity<List<Message>> outputMessages(@PathVariable Long senderId, @PathVariable Long receiverId)
+    public ResponseEntity<List<Message>> outputMessages(@PathVariable("senderId") Long senderId, @PathVariable("receiverId") Long receiverId)
     {
         return messageService.outputMessages(senderId, receiverId);
     }
 
     @Operation(summary = "Отправка сообщения")
     @PostMapping("/sendMessage/{senderId}/{receiverId}")
-    public ResponseEntity<String> sendMessage(@RequestBody @Valid SendMessage sendMessage, BindingResult bindingResult, @PathVariable Long senderId, @PathVariable Long receiverId)
+    public ResponseEntity<String> sendMessage(@RequestBody @Valid SendMessage sendMessage, BindingResult bindingResult, @PathVariable("senderId") Long senderId, @PathVariable("receiverId") Long receiverId)
     {
         if (bindingResult.hasErrors())
         {

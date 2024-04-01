@@ -28,18 +28,15 @@ public class ResponseController {
     @Operation(summary = "Метод получения списка пользователей, которые откликнулись на определённую вакансию")
     @GetMapping("/listUsers/{vacancyId}")
     @PreAuthorize("hasRole('EMPLOYER')")
-    public ResponseEntity<List<User>> listUsers(@PathVariable Long vacancyId)
+    public ResponseEntity<List<User>> listUsers(@PathVariable("vacancyId") Long vacancyId)
     {
-        Vacancy vacancy = vacancyRepository.findById(vacancyId).orElse(null);
-        List<User> userList;
-        userList = vacancy.getUserList();
-        return new ResponseEntity<>(userList,HttpStatus.OK);
+        return responseService.listUsers(vacancyId);
     }
 
     @Operation(summary = "Метод создания отклика")
     @PostMapping("/create/{userId}/{vacancyId}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<String> createResponse(@PathVariable Long userId, @PathVariable Long vacancyId)
+    public ResponseEntity<String> createResponse(@PathVariable("userId") Long userId, @PathVariable("vacancyId") Long vacancyId)
     {
         return responseService.createResponse(userId, vacancyId);
     }
@@ -47,7 +44,7 @@ public class ResponseController {
     @Operation(summary = "Метод удаления отклика")
     @DeleteMapping("/delete/{userId}/{vacancyId}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<String> deleteResponse(@PathVariable Long userId, @PathVariable Long vacancyId)
+    public ResponseEntity<String> deleteResponse(@PathVariable("userId") Long userId, @PathVariable("vacancyId") Long vacancyId)
     {
         return responseService.deleteResponse(userId, vacancyId);
     }

@@ -37,19 +37,14 @@ public class VacancyController {
     @PreAuthorize("hasRole('MODER')")
     public ResponseEntity<ListResponse> getAllVacancies()
     {
-        ListResponse vacancies;
-        vacancies = vacancyService.getAllVacancies();
-        return new ResponseEntity<>(vacancies, HttpStatus.OK);
+        return vacancyService.getAllVacancies();
     }
     @Operation(summary = "Получение списка вакансий определённого пользователя")
     @GetMapping("/listMyVacancies")
     @PreAuthorize("hasRole('EMPLOYER')")
     public ResponseEntity<List<Vacancy>> listMyVacancies()
     {
-        List<Vacancy> vacancies;
-        User user = userService.getCurrentUser();
-        vacancies = vacancyRepository.findByUserId(user.getId());
-        return new ResponseEntity<>(vacancies, HttpStatus.OK);
+        return vacancyService.listMyVacancies();
     }
 
     @Operation(summary = "Получение списка опубликованных вакансий")
@@ -57,9 +52,7 @@ public class VacancyController {
     @PreAuthorize("hasRole('EMPLOYER','USER')")
     public ResponseEntity<List<Vacancy>> listVacanciesStatusOk()
     {
-        List<Vacancy> vacancies;
-        vacancies = vacancyRepository.findAll();
-        return new ResponseEntity<>(vacancies, HttpStatus.OK);
+        return vacancyService.listVacanciesStatusOk();
     }
 
     @Operation(summary = "Создание вакансии")
@@ -98,36 +91,24 @@ public class VacancyController {
     @Operation(summary = "Удаление вакансии")
     @DeleteMapping("/delete/{vacancyId}")
     @PreAuthorize("hasRole('EMPLOYER')")
-    public ResponseEntity<String> deleteVacancy(@PathVariable("vacancyId") Long vacancyId) {
-        vacancyService.deleteVacancy(vacancyId);
-        return ResponseEntity.ok("Вакансия успешно удалена !");
+    public ResponseEntity<String> deleteVacancy(@PathVariable("vacancyId") Long vacancyId)
+    {
+        return vacancyService.deleteVacancy(vacancyId);
     }
 
     @Operation(summary = "Публикация вакансии")
     @PutMapping("/setStatusOk/{vacancyId}")
     @PreAuthorize("hasRole('MODER')")
-    public ResponseEntity<String> setStatusOk(@PathVariable("vacancyId") Long vacancyId) {
-
-        String status_vacancy = "Опубликовано!";
-
-        Vacancy vacancy = vacancyRepository.findById(vacancyId).orElse(null);
-        vacancy.setStatus_vacancy(status_vacancy);
-
-        vacancyRepository.save(vacancy);
-        return ResponseEntity.ok("Вакансия успешно опубликована!");
+    public ResponseEntity<String> setStatusOk(@PathVariable("vacancyId") Long vacancyId)
+    {
+        return vacancyService.setStatusOk(vacancyId);
     }
 
     @Operation(summary = "Блокировка вакансии")
     @PutMapping("/setStatusBlock/{vacancyId}")
     @PreAuthorize("hasRole('MODER')")
-    public ResponseEntity<String> setStatusBlock(@PathVariable("vacancyId") Long vacancyId) {
-
-        String status_vacancy = "Заблокировано!";
-
-        Vacancy vacancy = vacancyRepository.findById(vacancyId).orElse(null);
-        vacancy.setStatus_vacancy(status_vacancy);
-
-        vacancyRepository.save(vacancy);
-        return ResponseEntity.ok("Вакансия успешно заблокирована!");
+    public ResponseEntity<String> setStatusBlock(@PathVariable("vacancyId") Long vacancyId)
+    {
+        return vacancyService.setStatusBlock(vacancyId);
     }
 }

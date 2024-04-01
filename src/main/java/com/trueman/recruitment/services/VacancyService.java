@@ -8,6 +8,8 @@ import com.trueman.recruitment.models.User;
 import com.trueman.recruitment.models.Vacancy;
 import com.trueman.recruitment.repositories.VacancyRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,7 +22,7 @@ public class VacancyService {
     private final UserService userService;
     private final VacancyRepository vacancyRepository;
 
-    public ListResponse getAllVacancies() {
+    public ResponseEntity<ListResponse> getAllVacancies() {
         List<Vacancy> vacancies = vacancyRepository.findAll();
         List<ReadRequest> vacancyDTOList = new ArrayList<>();
 
@@ -39,8 +41,23 @@ public class VacancyService {
         ListResponse vacancyListDTO = new ListResponse();
         vacancyListDTO.setVacancies(vacancyDTOList);
 
-        return vacancyListDTO;
+        return new ResponseEntity<>(vacancyListDTO, HttpStatus.OK);
 
+    }
+
+    public ResponseEntity<List<Vacancy>> listMyVacancies()
+    {
+        List<Vacancy> vacancies;
+        User user = userService.getCurrentUser();
+        vacancies = vacancyRepository.findByUserId(user.getId());
+        return new ResponseEntity<>(vacancies, HttpStatus.OK);
+    }
+
+    public ResponseEntity<List<Vacancy>> listVacanciesStatusOk()
+    {
+        List<Vacancy> vacancies;
+        vacancies = vacancyRepository.findAll();
+        return new ResponseEntity<>(vacancies, HttpStatus.OK);
     }
     public Vacancy createVacancy(CreateRequest request)
     {
@@ -68,8 +85,33 @@ public class VacancyService {
 
         return vacancyRepository.save(vacancy);
     }
-    public void deleteVacancy(Long vacancyId)
+
+    public ResponseEntity<String> setStatusOk(Long vacancyId)
+    {
+        String status_vacancy = "Опубликовано!";
+
+        Vacancy vacancy = vacancyRepository.findById(vacancyId).orElse(null);
+        vacancy.setStatus_vacancy(status_vacancy);
+
+        vacancyRepository.save(vacancy);
+
+        return ResponseEntity.ok("Вакансия успешно опубликована!");
+    }
+
+    public ResponseEntity<String> setStatusBlock(Long vacancyId)
+    {
+        String status_vacancy = "Заблокировано!";
+
+        Vacancy vacancy = vacancyRepository.findById(vacancyId).orElse(null);
+        vacancy.setStatus_vacancy(status_vacancy);
+
+        vacancyRepository.save(vacancy);
+
+        return ResponseEntity.ok("Вакансия успешно заблокирована!");
+    }
+    public ResponseEntity<String> deleteVacancy(Long vacancyId)
     {
         vacancyRepository.deleteById(vacancyId);
+        return ResponseEntity.ok("Вакансия успешно удалена!");
     }
 }

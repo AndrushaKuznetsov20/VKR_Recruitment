@@ -5,8 +5,11 @@ import com.trueman.recruitment.models.Vacancy;
 import com.trueman.recruitment.repositories.UserRepository;
 import com.trueman.recruitment.repositories.VacancyRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -14,6 +17,13 @@ public class ResponseService {
     private final VacancyRepository vacancyRepository;
     private final UserRepository userRepository;
 
+    public ResponseEntity<List<User>> listUsers(Long vacancyId)
+    {
+        Vacancy vacancy = vacancyRepository.findById(vacancyId).orElse(null);
+        List<User> userList;
+        userList = vacancy.getUserList();
+        return new ResponseEntity<>(userList,HttpStatus.OK);
+    }
     public ResponseEntity<String> createResponse(Long userId, Long vacancyId)
     {
         Vacancy vacancy = vacancyRepository.findById(vacancyId).orElse(null);
