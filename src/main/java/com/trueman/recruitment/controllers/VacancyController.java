@@ -27,7 +27,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @Tag(name = "Методы для работы с вакансиями")
 public class VacancyController {
-
     private final VacancyService vacancyService;
 
     @Operation(summary = "Получение списка вакансий")
@@ -37,6 +36,7 @@ public class VacancyController {
     {
         return vacancyService.getAllVacancies();
     }
+
     @Operation(summary = "Получение списка вакансий определённого пользователя")
     @GetMapping("/listMyVacancies")
     @PreAuthorize("hasRole('EMPLOYER')")
@@ -44,7 +44,6 @@ public class VacancyController {
     {
         return vacancyService.listMyVacancies();
     }
-
 
     @Operation(summary = "Получение списка опубликованных вакансий")
     @GetMapping("/listVacanciesStatusOk")
@@ -108,4 +107,5 @@ public class VacancyController {
     {
         return vacancyService.setStatusBlock(vacancyId);
     }
+
 }

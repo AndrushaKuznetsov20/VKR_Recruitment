@@ -58,6 +58,7 @@ public class VacancyService {
         return new ResponseEntity<>(vacancyListDTO, HttpStatus.OK);
 
     }
+
     public ResponseEntity<String> createVacancy(CreateRequest request)
     {
         User user = userService.getCurrentUser();
@@ -70,9 +71,10 @@ public class VacancyService {
                 .status_vacancy(status_vacancy_default)
                 .user(user)
                 .build();
+        vacancy.setCreateDateTime();
         vacancyRepository.save(vacancy);
 
-        return ResponseEntity.ok("Данные о вакансии успешно обновлены !");
+        return ResponseEntity.ok("Вакансия успешно создана!");
     }
 
     public ResponseEntity<String> updateVacancy(Long vacancyId, UpdateRequest updateRequest)
@@ -111,9 +113,11 @@ public class VacancyService {
 
         return ResponseEntity.ok("Вакансия успешно заблокирована!");
     }
+
     public ResponseEntity<String> deleteVacancy(Long vacancyId)
     {
         vacancyRepository.deleteById(vacancyId);
         return ResponseEntity.ok("Вакансия успешно удалена!");
     }
+
 }

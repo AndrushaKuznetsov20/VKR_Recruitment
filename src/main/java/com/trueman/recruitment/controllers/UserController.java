@@ -24,7 +24,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @Tag(name = "Методы для работы с пользователями")
 public class UserController {
-
     private final UserService userService;
     @Operation(summary = "Получение списка пользователей")
     @GetMapping("/list")
