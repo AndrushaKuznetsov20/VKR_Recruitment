@@ -58,15 +58,15 @@ public class SecurityConfiguration {
                         .requestMatchers("/vacancy/setStatusBlock").hasRole("MODER")
 
                         .requestMatchers("/user/list").hasRole("ADMIN")
-                        .requestMatchers("/user/listVacancy").hasRole("USER")
                         .requestMatchers("/user/block").hasRole("ADMIN")
                         .requestMatchers("/user/inBlock").hasRole("ADMIN")
                         .requestMatchers("/user/changeRole").hasRole("ADMIN")
                         .requestMatchers("/user/update").permitAll()
 
-                        .requestMatchers("/response/create").hasRole("USER")
-                        .requestMatchers("/response/listUsers").hasRole("EMPLOYER")
-                        .requestMatchers("/response/delete").hasRole("USER")
+                        .requestMatchers("/response/create").permitAll()
+                        .requestMatchers("/response/listUsers").permitAll()
+                        .requestMatchers("/response/listVacancy").permitAll()
+                        .requestMatchers("/response/delete").permitAll()
 
                         .requestMatchers("/message/**").permitAll()
 

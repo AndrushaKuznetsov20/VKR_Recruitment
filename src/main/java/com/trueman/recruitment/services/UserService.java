@@ -3,9 +3,11 @@ package com.trueman.recruitment.services;
 import com.trueman.recruitment.dto.user.ListResponse;
 import com.trueman.recruitment.dto.user.ReadRequest;
 import com.trueman.recruitment.dto.user.UpdateRequest;
+import com.trueman.recruitment.models.Response;
 import com.trueman.recruitment.models.User;
 import com.trueman.recruitment.models.Vacancy;
 import com.trueman.recruitment.models.enums.Role;
+import com.trueman.recruitment.repositories.ResponseRepository;
 import com.trueman.recruitment.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -48,13 +50,6 @@ public class UserService {
 
     }
 
-    public ResponseEntity<List<Vacancy>> listVacancy(Long userId)
-    {
-        User user = userRepository.findById(userId).orElse(null);
-        List<Vacancy> userVacancy;
-        userVacancy = user.getListVacancy();
-        return new ResponseEntity<>(userVacancy,HttpStatus.OK);
-    }
     public User save(User user) {
         return userRepository.save(user);
     }

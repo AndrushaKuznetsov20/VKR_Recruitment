@@ -45,6 +45,7 @@ public class VacancyController {
         return vacancyService.listMyVacancies();
     }
 
+
     @Operation(summary = "Получение списка опубликованных вакансий")
     @GetMapping("/listVacanciesStatusOk")
     @PreAuthorize("hasRole('EMPLOYER','USER')")
@@ -65,8 +66,7 @@ public class VacancyController {
             return ResponseEntity.badRequest().body(errorMessage.toString());
         }
 
-        vacancyService.createVacancy(request);
-        return ResponseEntity.ok("Вакансия успешно создана !");
+        return vacancyService.createVacancy(request);
     }
 
     @Operation(summary = "Обновление данных о вакансии")
@@ -82,8 +82,7 @@ public class VacancyController {
             return ResponseEntity.badRequest().body(errorMessage.toString());
         }
 
-        vacancyService.updateVacancy(vacancyId, updateRequest);
-        return ResponseEntity.ok("Данные о вакансии успешно обновлены !");
+        return vacancyService.updateVacancy(vacancyId, updateRequest);
     }
 
     @Operation(summary = "Удаление вакансии")

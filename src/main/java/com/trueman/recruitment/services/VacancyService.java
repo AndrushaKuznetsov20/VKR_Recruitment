@@ -22,29 +22,6 @@ public class VacancyService {
     private final UserService userService;
     private final VacancyRepository vacancyRepository;
 
-    public ResponseEntity<ListResponse> getAllVacancies() {
-        List<Vacancy> vacancies = vacancyRepository.findAll();
-        List<ReadRequest> vacancyDTOList = new ArrayList<>();
-
-        for (Vacancy vacancy : vacancies) {
-            ReadRequest vacancyDTO = new ReadRequest();
-            vacancyDTO.setId(vacancy.getId());
-            vacancyDTO.setName_vacancy(vacancy.getName_vacancy());
-            vacancyDTO.setDescription_vacancy(vacancy.getDescription_vacancy());
-            vacancyDTO.setConditions_and_requirements(vacancy.getConditions_and_requirements());
-            vacancyDTO.setStatus_vacancy(vacancy.getStatus_vacancy());
-            vacancyDTO.setUser(vacancy.getUser());
-            vacancyDTO.setUserList(vacancy.getUserList());
-            vacancyDTOList.add(vacancyDTO);
-        }
-
-        ListResponse vacancyListDTO = new ListResponse();
-        vacancyListDTO.setVacancies(vacancyDTOList);
-
-        return new ResponseEntity<>(vacancyListDTO, HttpStatus.OK);
-
-    }
-
     public ResponseEntity<List<Vacancy>> listMyVacancies()
     {
         List<Vacancy> vacancies;
@@ -59,7 +36,29 @@ public class VacancyService {
         vacancies = vacancyRepository.findAll();
         return new ResponseEntity<>(vacancies, HttpStatus.OK);
     }
-    public Vacancy createVacancy(CreateRequest request)
+
+    public ResponseEntity<ListResponse> getAllVacancies() {
+        List<Vacancy> vacancies = vacancyRepository.findAll();
+        List<ReadRequest> vacancyDTOList = new ArrayList<>();
+
+        for (Vacancy vacancy : vacancies) {
+            ReadRequest vacancyDTO = new ReadRequest();
+            vacancyDTO.setId(vacancy.getId());
+            vacancyDTO.setName_vacancy(vacancy.getName_vacancy());
+            vacancyDTO.setDescription_vacancy(vacancy.getDescription_vacancy());
+            vacancyDTO.setConditions_and_requirements(vacancy.getConditions_and_requirements());
+            vacancyDTO.setStatus_vacancy(vacancy.getStatus_vacancy());
+            vacancyDTO.setUser(vacancy.getUser());
+            vacancyDTOList.add(vacancyDTO);
+        }
+
+        ListResponse vacancyListDTO = new ListResponse();
+        vacancyListDTO.setVacancies(vacancyDTOList);
+
+        return new ResponseEntity<>(vacancyListDTO, HttpStatus.OK);
+
+    }
+    public ResponseEntity<String> createVacancy(CreateRequest request)
     {
         User user = userService.getCurrentUser();
         String status_vacancy_default = "Не модерировано!";
@@ -71,11 +70,12 @@ public class VacancyService {
                 .status_vacancy(status_vacancy_default)
                 .user(user)
                 .build();
+        vacancyRepository.save(vacancy);
 
-        return vacancyRepository.save(vacancy);
+        return ResponseEntity.ok("Данные о вакансии успешно обновлены !");
     }
 
-    public Vacancy updateVacancy(Long vacancyId, UpdateRequest updateRequest)
+    public ResponseEntity<String> updateVacancy(Long vacancyId, UpdateRequest updateRequest)
     {
         Vacancy vacancy = vacancyRepository.findById(vacancyId).orElse(null);
 
@@ -83,7 +83,9 @@ public class VacancyService {
         vacancy.setDescription_vacancy(updateRequest.getDescription_vacancy());
         vacancy.setConditions_and_requirements(updateRequest.getConditions_and_requirements());
 
-        return vacancyRepository.save(vacancy);
+        vacancyRepository.save(vacancy);
+
+        return ResponseEntity.ok("Данные о вакансии успешно обновлены !");
     }
 
     public ResponseEntity<String> setStatusOk(Long vacancyId)

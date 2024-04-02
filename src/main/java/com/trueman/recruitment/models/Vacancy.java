@@ -39,9 +39,5 @@ public class Vacancy {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Description("Список пользователей, которые оставили отклики на данную вакансию")
-    @JsonIgnore
-    @ManyToMany
-    private List<User> userList;
 
 }

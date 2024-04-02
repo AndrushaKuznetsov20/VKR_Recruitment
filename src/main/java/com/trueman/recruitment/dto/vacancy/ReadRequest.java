@@ -13,5 +13,4 @@ public class ReadRequest {
     private String conditions_and_requirements;
     private String status_vacancy;
     private User user;
-    private List<User> userList;
 }

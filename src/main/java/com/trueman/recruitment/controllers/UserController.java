@@ -26,21 +26,12 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-    private final UserRepository userRepository;
     @Operation(summary = "Получение списка пользователей")
     @GetMapping("/list")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ListResponse> getAllUsers()
     {
         return userService.getAllUsers();
-    }
-
-    @Operation(summary = "Получение списка вакансий на которые определённый пользователь оставил отклики")
-    @GetMapping("/listVacancy/{userId}")
-    @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<List<Vacancy>> listVacancy(@PathVariable("userId") Long userId)
-    {
-        return userService.listVacancy(userId);
     }
 
     @Operation(summary = "Обновление данных пользователя")

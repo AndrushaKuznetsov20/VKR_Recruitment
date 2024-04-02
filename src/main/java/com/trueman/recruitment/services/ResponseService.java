@@ -1,13 +1,19 @@
 package com.trueman.recruitment.services;
 
+import com.trueman.recruitment.models.Response;
 import com.trueman.recruitment.models.User;
 import com.trueman.recruitment.models.Vacancy;
+import com.trueman.recruitment.repositories.ResponseRepository;
 import com.trueman.recruitment.repositories.UserRepository;
 import com.trueman.recruitment.repositories.VacancyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import java.util.List;
 
@@ -16,43 +22,62 @@ import java.util.List;
 public class ResponseService {
     private final VacancyRepository vacancyRepository;
     private final UserRepository userRepository;
+    private final ResponseRepository responseRepository;
 
     public ResponseEntity<List<User>> listUsers(Long vacancyId)
     {
-        Vacancy vacancy = vacancyRepository.findById(vacancyId).orElse(null);
-        List<User> userList;
-        userList = vacancy.getUserList();
+        List<Response> responses = responseRepository.findByVacancyId(vacancyId);
+        List<User> userList = new ArrayList<>();
+
+        for(Response response : responses)
+        {
+            userList.add(response.getUser());
+        }
+
         return new ResponseEntity<>(userList,HttpStatus.OK);
     }
+
+    public ResponseEntity<List<Vacancy>> listVacancy(Long userId)
+    {
+        List<Response> responses = responseRepository.findByUserId(userId);
+
+        List<Vacancy> vacancyList = new ArrayList<>();
+
+        for(Response response : responses)
+        {
+            vacancyList.add(response.getVacancy());
+        }
+
+        return new ResponseEntity<>(vacancyList,HttpStatus.OK);
+    }
+
     public ResponseEntity<String> createResponse(Long userId, Long vacancyId)
     {
         Vacancy vacancy = vacancyRepository.findById(vacancyId).orElse(null);
         User user = userRepository.findById(userId).orElse(null);
 
-        if(vacancy.getUserList().contains(user))
+        Response existingResponse = responseRepository.findByUserIdAndVacancyId(userId, vacancyId);
+
+        if(existingResponse != null)
         {
-            return ResponseEntity.ok("Вы уже оставляли отклик на данную вакансию!");
+            return ResponseEntity.ok("Вы уже оставили свой отклик на данную вакансию!");
         }
 
-        vacancy.getUserList().add(user);
-        user.getListVacancy().add(vacancy);
+        Response response = new Response();
 
-        vacancyRepository.save(vacancy);
-        userRepository.save(user);
+        response.setUser(user);
+        response.setVacancy(vacancy);
+        response.setCurrentDateTime();
+
+        responseRepository.save(response);
 
         return ResponseEntity.ok("Отклик успешно оставлен!");
     }
+
     public ResponseEntity<String> deleteResponse(Long userId, Long vacancyId)
     {
-        Vacancy vacancy = vacancyRepository.findById(vacancyId).orElse(null);
-        User user = userRepository.findById(userId).orElse(null);
-
-        vacancy.getUserList().remove(user);
-        user.getListVacancy().remove(vacancy);
-
-        vacancyRepository.save(vacancy);
-        userRepository.save(user);
-
+        Response response = responseRepository.findByUserIdAndVacancyId(userId, vacancyId);
+        responseRepository.delete(response);
         return ResponseEntity.ok("Отклик успешно удалён!");
     }
 }

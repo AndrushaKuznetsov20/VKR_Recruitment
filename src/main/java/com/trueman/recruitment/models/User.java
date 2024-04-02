@@ -44,10 +44,6 @@ public class User implements UserDetails
     @Column(name = "role", nullable = false)
     private Role role;
 
-    @Description("Список вакансий на которые пользователь оставил отклики")
-    @ManyToMany
-    private List<Vacancy> listVacancy;
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities()
     {
