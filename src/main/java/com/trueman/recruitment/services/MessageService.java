@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -25,13 +26,17 @@ public class MessageService {
                 .sender(senderId)
                 .receiver(receiverId)
                 .build();
+
+        message.setCurrentDate();
         messageRepository.save(message);
+
         return ResponseEntity.ok("Сообщение успешно отправлено!");
     }
     public ResponseEntity<List<Message>> outputMessages(Long senderId, Long receiverId)
     {
         List<Message> messages;
         messages = messageRepository.findBySenderIdAndReceiverId(senderId, receiverId);
+
         return new ResponseEntity<>(messages, HttpStatus.OK);
     }
 }

@@ -1,7 +1,11 @@
 package com.trueman.recruitment.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -24,4 +28,12 @@ public class Message {
 
     @Column(name = "receiver")
     private Long receiver;
+
+    @Column(name = "date")
+    private LocalDateTime currentDateTime;
+
+    public void setCurrentDate()
+    {
+        this.currentDateTime = LocalDateTime.now();
+    }
 }

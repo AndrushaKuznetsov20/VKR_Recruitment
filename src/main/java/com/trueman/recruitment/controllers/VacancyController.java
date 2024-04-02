@@ -29,8 +29,6 @@ import java.util.List;
 public class VacancyController {
 
     private final VacancyService vacancyService;
-    private final VacancyRepository vacancyRepository;
-    private final UserService userService;
 
     @Operation(summary = "Получение списка вакансий")
     @GetMapping("/list")
