@@ -32,25 +32,25 @@ public class VacancyController {
     private final VacancyRepository vacancyRepository;
     private final UserService userService;
 
-    @Operation(summary = "Получение списка вакансий")
-    @GetMapping("/list")
-    @PreAuthorize("hasRole('MODER')")
-    public ResponseEntity<ListResponse> getAllVacancies()
-    {
-        ListResponse vacancies;
-        vacancies = vacancyService.getAllVacancies();
-        return new ResponseEntity<>(vacancies, HttpStatus.OK);
-    }
-    @Operation(summary = "Получение списка вакансий определённого пользователя")
-    @GetMapping("/listMyVacancies")
-    @PreAuthorize("hasRole('EMPLOYER')")
-    public ResponseEntity<List<Vacancy>> listMyVacancies()
-    {
-        List<Vacancy> vacancies;
-        User user = userService.getCurrentUser();
-        vacancies = vacancyRepository.findByUserId(user.getId());
-        return new ResponseEntity<>(vacancies, HttpStatus.OK);
-    }
+//    @Operation(summary = "Получение списка вакансий")
+//    @GetMapping("/list")
+//    @PreAuthorize("hasRole('MODER')")
+//    public ResponseEntity<ListResponse> getAllVacancies()
+//    {
+//        ListResponse vacancies;
+//        vacancies = vacancyService.getAllVacancies();
+//        return new ResponseEntity<>(vacancies, HttpStatus.OK);
+//    }
+//    @Operation(summary = "Получение списка вакансий определённого пользователя")
+//    @GetMapping("/listMyVacancies")
+//    @PreAuthorize("hasRole('EMPLOYER')")
+//    public ResponseEntity<List<Vacancy>> listMyVacancies()
+//    {
+//        List<Vacancy> vacancies;
+//        User user = userService.getCurrentUser();
+//        vacancies = vacancyRepository.findByUserId(user.getId());
+//        return new ResponseEntity<>(vacancies, HttpStatus.OK);
+//    }
 
     @Operation(summary = "Получение списка опубликованных вакансий")
     @GetMapping("/listVacanciesStatusOk")

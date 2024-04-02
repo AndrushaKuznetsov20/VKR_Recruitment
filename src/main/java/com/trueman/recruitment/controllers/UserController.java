@@ -38,16 +38,16 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @Operation(summary = "Получение списка вакансий на которые определённый пользователь оставил отклики")
-    @GetMapping("/listVacancy/{userId}")
-    @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<List<Vacancy>> listVacancy(@PathVariable Long userId)
-    {
-        User user = userRepository.findById(userId).orElse(null);
-        List<Vacancy> userVacancy;
-        userVacancy = user.getListVacancy();
-        return new ResponseEntity<>(userVacancy,HttpStatus.OK);
-    }
+//    @Operation(summary = "Получение списка вакансий на которые определённый пользователь оставил отклики")
+//    @GetMapping("/listVacancy/{userId}")
+//    @PreAuthorize("hasRole('USER')")
+//    public ResponseEntity<List<Vacancy>> listVacancy(@PathVariable Long userId)
+//    {
+//        User user = userRepository.findById(userId).orElse(null);
+//        List<Vacancy> userVacancy;
+//        userVacancy = user.getListVacancy();
+//        return new ResponseEntity<>(userVacancy,HttpStatus.OK);
+//    }
 
     @Operation(summary = "Обновление данных пользователя")
     @PutMapping("/update/{userId}")

@@ -20,28 +20,28 @@ public class VacancyService {
     private final UserService userService;
     private final VacancyRepository vacancyRepository;
 
-    public ListResponse getAllVacancies() {
-        List<Vacancy> vacancies = vacancyRepository.findAll();
-        List<ReadRequest> vacancyDTOList = new ArrayList<>();
-
-        for (Vacancy vacancy : vacancies) {
-            ReadRequest vacancyDTO = new ReadRequest();
-            vacancyDTO.setId(vacancy.getId());
-            vacancyDTO.setName_vacancy(vacancy.getName_vacancy());
-            vacancyDTO.setDescription_vacancy(vacancy.getDescription_vacancy());
-            vacancyDTO.setConditions_and_requirements(vacancy.getConditions_and_requirements());
-            vacancyDTO.setStatus_vacancy(vacancy.getStatus_vacancy());
-            vacancyDTO.setUser(vacancy.getUser());
-            vacancyDTO.setUserList(vacancy.getUserList());
-            vacancyDTOList.add(vacancyDTO);
-        }
-
-        ListResponse vacancyListDTO = new ListResponse();
-        vacancyListDTO.setVacancies(vacancyDTOList);
-
-        return vacancyListDTO;
-
-    }
+//    public ListResponse getAllVacancies() {
+//        List<Vacancy> vacancies = vacancyRepository.findAll();
+//        List<ReadRequest> vacancyDTOList = new ArrayList<>();
+//
+//        for (Vacancy vacancy : vacancies) {
+//            ReadRequest vacancyDTO = new ReadRequest();
+//            vacancyDTO.setId(vacancy.getId());
+//            vacancyDTO.setName_vacancy(vacancy.getName_vacancy());
+//            vacancyDTO.setDescription_vacancy(vacancy.getDescription_vacancy());
+//            vacancyDTO.setConditions_and_requirements(vacancy.getConditions_and_requirements());
+//            vacancyDTO.setStatus_vacancy(vacancy.getStatus_vacancy());
+//            vacancyDTO.setUser(vacancy.getUser());
+//            vacancyDTO.setUserList(vacancy.getUserList());
+//            vacancyDTOList.add(vacancyDTO);
+//        }
+//
+//        ListResponse vacancyListDTO = new ListResponse();
+//        vacancyListDTO.setVacancies(vacancyDTOList);
+//
+//        return vacancyListDTO;
+//
+//    }
     public Vacancy createVacancy(CreateRequest request)
     {
         User user = userService.getCurrentUser();
