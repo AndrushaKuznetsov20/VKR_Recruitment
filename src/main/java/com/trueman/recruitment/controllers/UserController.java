@@ -47,6 +47,7 @@ public class UserController {
         userService.update(userId, updateRequest);
         return ResponseEntity.ok("Данные о пользователе успешно обновлены!");
     }
+
     @Operation(summary = "Блокировка пользователя")
     @PutMapping("/block/{userId}")
     @PreAuthorize("hasRole('ADMIN')")
