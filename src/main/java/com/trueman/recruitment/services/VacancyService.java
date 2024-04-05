@@ -22,21 +22,6 @@ public class VacancyService {
     private final UserService userService;
     private final VacancyRepository vacancyRepository;
 
-    public ResponseEntity<List<Vacancy>> listMyVacancies()
-    {
-        List<Vacancy> vacancies;
-        User user = userService.getCurrentUser();
-        vacancies = vacancyRepository.findByUserId(user.getId());
-        return new ResponseEntity<>(vacancies, HttpStatus.OK);
-    }
-
-    public ResponseEntity<List<Vacancy>> listVacanciesStatusOk()
-    {
-        List<Vacancy> vacancies;
-        vacancies = vacancyRepository.findAll();
-        return new ResponseEntity<>(vacancies, HttpStatus.OK);
-    }
-
     public ResponseEntity<ListResponse> getAllVacancies() {
         List<Vacancy> vacancies = vacancyRepository.findAll();
         List<ReadRequest> vacancyDTOList = new ArrayList<>();
@@ -59,6 +44,21 @@ public class VacancyService {
 
     }
 
+    public ResponseEntity<List<Vacancy>> listMyVacancies()
+    {
+        List<Vacancy> vacancies;
+        User user = userService.getCurrentUser();
+        vacancies = vacancyRepository.findByUserId(user.getId());
+        return new ResponseEntity<>(vacancies, HttpStatus.OK);
+    }
+
+    public ResponseEntity<List<Vacancy>> listVacanciesStatusOk()
+    {
+        List<Vacancy> vacancies;
+        vacancies = vacancyRepository.findAll();
+        return new ResponseEntity<>(vacancies, HttpStatus.OK);
+    }
+
     public ResponseEntity<String> createVacancy(CreateRequest request)
     {
         User user = userService.getCurrentUser();
@@ -74,7 +74,7 @@ public class VacancyService {
         vacancy.setCreateDateTime();
         vacancyRepository.save(vacancy);
 
-        return ResponseEntity.ok("Вакансия успешно создана!");
+        return ResponseEntity.ok("Вакансия успешно создана и отправлена на проверку модератору!");
     }
 
     public ResponseEntity<String> updateVacancy(Long vacancyId, UpdateRequest updateRequest)

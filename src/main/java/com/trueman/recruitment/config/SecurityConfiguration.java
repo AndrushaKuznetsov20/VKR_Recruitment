@@ -68,6 +68,15 @@ public class SecurityConfiguration {
                         .requestMatchers("/response/listVacancy").hasRole("USER")
                         .requestMatchers("/response/delete").hasRole("USER")
 
+                        .requestMatchers("/resume/list").permitAll()
+                        .requestMatchers("/resume/myResume").permitAll()
+                        .requestMatchers("/resume/listResumeStatusOk").permitAll()
+                        .requestMatchers("/resume/create").permitAll()
+                        .requestMatchers("/resume/update").permitAll()
+                        .requestMatchers("/resume/delete").permitAll()
+                        .requestMatchers("/resume/setStatusOk").permitAll()
+                        .requestMatchers("/resume/setStatusBlock").permitAll()
+
                         .requestMatchers("/message/**").permitAll()
 
                         .anyRequest().authenticated())

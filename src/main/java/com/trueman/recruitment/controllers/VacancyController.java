@@ -40,7 +40,7 @@ public class VacancyController {
     @Operation(summary = "Получение списка вакансий определённого пользователя")
     @GetMapping("/listMyVacancies")
     @PreAuthorize("hasRole('EMPLOYER')")
-    public ResponseEntity<List<Vacancy>> listMyVacancies()
+    public ResponseEntity<List<Vacancy>> getListMyVacancies()
     {
         return vacancyService.listMyVacancies();
     }
@@ -48,7 +48,7 @@ public class VacancyController {
     @Operation(summary = "Получение списка опубликованных вакансий")
     @GetMapping("/listVacanciesStatusOk")
     @PreAuthorize("hasRole('EMPLOYER','USER')")
-    public ResponseEntity<List<Vacancy>> listVacanciesStatusOk()
+    public ResponseEntity<List<Vacancy>> getListVacanciesStatusOk()
     {
         return vacancyService.listVacanciesStatusOk();
     }
