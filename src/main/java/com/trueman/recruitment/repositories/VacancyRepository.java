@@ -12,9 +12,10 @@ import java.util.List;
 public interface VacancyRepository extends JpaRepository<Vacancy, Long> {
     @Query("SELECT v FROM Vacancy v WHERE v.user.id = :userId")
     List<Vacancy> findByUserId(@Param("userId") Long userId);
-    @Query("SELECT v FROM Vacancy v WHERE v.status_vacancy = 'Опубликовано!'")
     List<Vacancy> findAll();
 
+    @Query("SELECT v FROM Vacancy v WHERE v.status_vacancy = 'Опубликовано!'")
+    List<Vacancy> findAllStatusOk();
     @Query("SELECT COUNT(v) FROM Vacancy v WHERE v.createDateTime BETWEEN :startDateTime AND :endDateTime AND v.user.id = :userId")
     int countVacancyInDateTimeRange(@Param("startDateTime")LocalDateTime startDateTime,
                                     @Param("endDateTime") LocalDateTime endDateTime,

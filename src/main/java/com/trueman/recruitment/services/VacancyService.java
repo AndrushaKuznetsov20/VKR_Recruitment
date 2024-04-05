@@ -55,7 +55,7 @@ public class VacancyService {
     public ResponseEntity<List<Vacancy>> listVacanciesStatusOk()
     {
         List<Vacancy> vacancies;
-        vacancies = vacancyRepository.findAll();
+        vacancies = vacancyRepository.findAllStatusOk();
         return new ResponseEntity<>(vacancies, HttpStatus.OK);
     }
 

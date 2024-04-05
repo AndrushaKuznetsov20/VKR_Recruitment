@@ -56,7 +56,7 @@ public class ResumeService {
         User user = userService.getCurrentUser();
         Long userId = user.getId();
 
-        Optional<Resume> resume = resumeRepository.findById(userId);
+        Optional<Resume> resume = resumeRepository.findByUserId(userId);
 
         return new ResponseEntity<>(resume,HttpStatus.OK);
     }
@@ -64,7 +64,7 @@ public class ResumeService {
     public ResponseEntity<List<Resume>> getListResumesStatusOk()
     {
         List<Resume> resumes;
-        resumes = resumeRepository.findAll();
+        resumes = resumeRepository.findAllStatusOk();
         return new ResponseEntity<>(resumes, HttpStatus.OK);
     }
 
@@ -78,6 +78,7 @@ public class ResumeService {
                 .birthDate(createRequest.getBirthDate())
                 .city(createRequest.getCity())
                 .skills(createRequest.getSkills())
+                .education(createRequest.getEducation())
                 .otherInfo(createRequest.getOtherInfo())
                 .user(user)
                 .build();
@@ -96,6 +97,7 @@ public class ResumeService {
         resume.setBirthDate(updateRequest.getBirthDate());
         resume.setCity(updateRequest.getCity());
         resume.setSkills(updateRequest.getSkills());
+        resume.setEducation(updateRequest.getEducation());
         resume.setOtherInfo(updateRequest.getOtherInfo());
 
         resumeRepository.save(resume);

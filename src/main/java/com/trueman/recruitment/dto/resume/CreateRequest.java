@@ -3,9 +3,11 @@ package com.trueman.recruitment.dto.resume;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import jdk.jfr.Description;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
@@ -17,8 +19,9 @@ public class CreateRequest {
     @NotBlank(message = "ФИО не может быть пустым")
     private String fullName;
 
-    @Schema(description = "Дата рождения", example = "2002-24-02")
-    @NotBlank(message = "Дата рождения не может быть пустым")
+    @Schema(description = "Дата рождения", example = "2002-02-24")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @NotNull
     private LocalDate birthDate;
 
     @Schema(description = "Город", example = "Владимир")

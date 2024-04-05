@@ -2,8 +2,10 @@ package com.trueman.recruitment.dto.resume;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
@@ -16,7 +18,8 @@ public class UpdateRequest {
     private String fullName;
 
     @Schema(description = "Дата рождения", example = "2002-24-02")
-    @NotBlank(message = "Дата рождения не может быть пустым")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @NotNull
     private LocalDate birthDate;
 
     @Schema(description = "Город", example = "Владимир")

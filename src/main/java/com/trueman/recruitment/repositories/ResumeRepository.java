@@ -6,8 +6,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.OptionalInt;
 
 public interface ResumeRepository extends JpaRepository<Resume, Long> {
-    @Query("SELECT r FROM Resume r WHERE r.statusResume: = 'Опубликовано!'")
     List<Resume> findAll();
+
+    @Query("SELECT r FROM Resume r WHERE r.statusResume = 'Опубликовано!'")
+    List<Resume> findAllStatusOk();
+
+    Optional<Resume> findByUserId(@Param("userId") Long userId);
+
 }
