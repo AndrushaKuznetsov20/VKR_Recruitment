@@ -102,4 +102,14 @@ public class ResumeController {
     {
         return resumeService.setStatusBlock(resumeId);
     }
+
+    @Operation(summary = "Поиск резюме по заданным параметрам")
+    @GetMapping("/searchResumes")
+    //    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<List<Resume>> searchResumes(@RequestParam(required = false) String fullName,
+                                                      @RequestParam(required = false) String city,
+                                                      @RequestParam(required = false) String education)
+    {
+        return resumeService.getSearchResumes(fullName,city,education);
+    }
 }

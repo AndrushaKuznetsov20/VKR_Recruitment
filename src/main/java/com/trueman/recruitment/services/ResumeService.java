@@ -8,7 +8,9 @@ import com.trueman.recruitment.models.Resume;
 import com.trueman.recruitment.models.User;
 import com.trueman.recruitment.models.Vacancy;
 import com.trueman.recruitment.repositories.ResumeRepository;
+import com.trueman.recruitment.specification.ResumeSpecification;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -133,5 +135,27 @@ public class ResumeService {
         resumeRepository.save(resume);
 
         return ResponseEntity.ok("Резюме успешно заблокировано!");
+    }
+
+    public ResponseEntity<List<Resume>> getSearchResumes(String fullName, String city, String education)
+    {
+        Specification<Resume> specification = Specification.where(null);
+
+        if(fullName != null && !fullName.isEmpty())
+        {
+            specification = specification.and(ResumeSpecification.findByFullName(fullName));
+        }
+        if(city != null && !city.isEmpty())
+        {
+            specification = specification.and(ResumeSpecification.findByCity(city));
+        }
+        if(education != null && !education.isEmpty())
+        {
+            specification = specification.and(ResumeSpecification.findByEducation(education));
+        }
+
+        List<Resume> resumes = resumeRepository.findAll(specification);
+
+        return new ResponseEntity<>(resumes, HttpStatus.OK);
     }
 }
