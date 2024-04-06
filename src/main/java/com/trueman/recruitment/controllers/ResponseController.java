@@ -59,8 +59,33 @@ public class ResponseController {
 
     @Operation(summary = "Метод установки статуса 'Самоотказ'")
     @PutMapping("/setStatusSelfDenial/{userId}/{vacancyId}")
+//    @PreAuthorize("hasRole('EMPLOYER')")
     public ResponseEntity<String> setStatusResponseSelfDenial(@PathVariable("userId") Long userId, @PathVariable("vacancyId") Long vacancyId)
     {
         return responseService.setStatusResponseSelfDenial(userId, vacancyId);
+    }
+
+    @Operation(summary = "Метод установки статуса 'Отказ работодателя'")
+    @PutMapping("/setStatusRefusalEmployer/{userId}/{vacancyId}")
+//    @PreAuthorize("hasRole('EMPLOYER')")
+    public ResponseEntity<String> setStatusResponseRefusalEmployer(@PathVariable("userId") Long userId, @PathVariable("vacancyId") Long vacancyId)
+    {
+        return responseService.setStatusResponseRefusalEmployer(userId, vacancyId);
+    }
+
+    @Operation(summary = "Метод установки статуса 'Релевантный отклик'")
+    @PutMapping("/setStatusRelevant/{userId}/{vacancyId}")
+//    @PreAuthorize("hasRole('EMPLOYER')")
+    public ResponseEntity<String> setStatusResponseRelevant(@PathVariable("userId") Long userId, @PathVariable("vacancyId") Long vacancyId)
+    {
+        return responseService.setStatusResponseRelevant(userId, vacancyId);
+    }
+
+    @Operation(summary = "Метод установки статуса 'Кандидат приглашён'")
+    @PutMapping("/setStatusInvitation/{userId}/{vacancyId}")
+//    @PreAuthorize("hasRole('EMPLOYER')")
+    public ResponseEntity<String> setStatusResponseInvitation(@PathVariable("userId") Long userId, @PathVariable("vacancyId") Long vacancyId)
+    {
+        return responseService.setStatusResponseInvitation(userId, vacancyId);
     }
 }

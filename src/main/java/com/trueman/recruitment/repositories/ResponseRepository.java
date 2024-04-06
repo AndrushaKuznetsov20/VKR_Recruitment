@@ -21,4 +21,27 @@ public interface ResponseRepository extends JpaRepository<Response, Long> {
     @Query("SELECT r FROM Response r WHERE r.currentDateTime BETWEEN :startDateTime AND :endDateTime")
     int findAll(@Param("startDateTime") LocalDateTime startDateTime,
                            @Param("endDateTime") LocalDateTime endDateTime);
+
+    @Query("SELECT COUNT(r) FROM Response r WHERE r.currentDateTime " +
+            "BETWEEN :startDateTime AND :endDateTime AND r.vacancy.id =:vacancyId AND r.statusResponse = 'Самоотказ!'")
+    int countSelfDanial(@Param("startDateTime") LocalDateTime startDateTime,
+                        @Param("endDateTime") LocalDateTime endDateTime,
+                        @Param("vacancyId") Long vacancyId);
+
+    @Query("SELECT COUNT(r) FROM Response r WHERE r.currentDateTime " +
+            "BETWEEN :startDateTime AND :endDateTime AND r.vacancy.id =:vacancyId AND r.statusResponse = 'Отказ работодателя!'")
+    int countRefusalEmployer(@Param("startDateTime") LocalDateTime startDateTime,
+                             @Param("endDateTime") LocalDateTime endDateTime,
+                             @Param("vacancyId") Long vacancyId);
+    @Query("SELECT COUNT(r) FROM Response r WHERE r.currentDateTime " +
+            "BETWEEN :startDateTime AND :endDateTime AND r.vacancy.id =:vacancyId AND r.statusResponse = 'Релевантный отклик!'")
+    int countRelevantResponses(@Param("startDateTime") LocalDateTime startDateTime,
+                               @Param("endDateTime") LocalDateTime endDateTime,
+                               @Param("vacancyId") Long vacancyId);
+
+    @Query("SELECT COUNT(r) FROM Response r WHERE r.currentDateTime " +
+            "BETWEEN :startDateTime AND :endDateTime AND r.vacancy.id =:vacancyId AND r.statusResponse = 'Кандидат приглашён!'")
+    int сountInvitation(@Param("startDateTime") LocalDateTime startDateTime,
+                        @Param("endDateTime") LocalDateTime endDateTime,
+                        @Param("vacancyId") Long vacancyId);
 }

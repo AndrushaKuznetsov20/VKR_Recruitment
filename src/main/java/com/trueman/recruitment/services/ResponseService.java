@@ -90,4 +90,28 @@ public class ResponseService {
         responseRepository.save(response);
         return ResponseEntity.ok("Статус отклика сменён на 'Самоотказ'");
     }
+
+    public ResponseEntity<String> setStatusResponseRefusalEmployer(Long userId, Long vacancyId)
+    {
+        Response response = responseRepository.findByUserIdAndVacancyId(userId, vacancyId);
+        response.setStatusResponse("Отказ работодателя!");
+        responseRepository.save(response);
+        return ResponseEntity.ok("Статус отклика сменён на 'Отказ работодателя'");
+    }
+
+    public ResponseEntity<String> setStatusResponseRelevant(Long userId, Long vacancyId)
+    {
+        Response response = responseRepository.findByUserIdAndVacancyId(userId, vacancyId);
+        response.setStatusResponse("Релевантный отклик!");
+        responseRepository.save(response);
+        return ResponseEntity.ok("Статус отклика сменён на 'Релевантный отклик'");
+    }
+
+    public ResponseEntity<String> setStatusResponseInvitation(Long userId, Long vacancyId)
+    {
+        Response response = responseRepository.findByUserIdAndVacancyId(userId, vacancyId);
+        response.setStatusResponse("Кандидат приглашён!");
+        responseRepository.save(response);
+        return ResponseEntity.ok("Статус отклика сменён на 'Кандидат приглашён'");
+    }
 }

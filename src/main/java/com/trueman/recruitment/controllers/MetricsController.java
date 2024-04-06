@@ -40,7 +40,7 @@ public class MetricsController {
     @GetMapping("/countAllResponses/{startDateTime}/{endDateTime}")
 //    @PreAuthorize("hasRole('EMPLOYER')")
     public ResponseEntity<Integer> countAllResponses(@DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss") @PathVariable("startDateTime") LocalDateTime startDateTime,
-                                                  @DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss") @PathVariable("endDateTime") LocalDateTime endDateTime)
+                                                     @DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss") @PathVariable("endDateTime") LocalDateTime endDateTime)
     {
         return metricsService.getAllResponses(startDateTime, endDateTime);
     }
@@ -53,6 +53,46 @@ public class MetricsController {
                                                   @PathVariable("vacancyId") Long vacancyId)
     {
         return metricsService.getResponses(startDateTime, endDateTime, vacancyId);
+    }
+
+    @Operation(summary = "Расчёт количества самоотказов")
+    @GetMapping("/countSelfDanial/{startDateTime}/{endDateTime}/{vacancyId}")
+//    @PreAuthorize("hasRole('EMPLOYER')")
+    public ResponseEntity<Integer> countSelfDanial(@DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss") @PathVariable("startDateTime") LocalDateTime startDateTime,
+                                                   @DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss") @PathVariable("endDateTime") LocalDateTime endDateTime,
+                                                   @PathVariable("vacancyId") Long vacancyId)
+    {
+        return metricsService.getCountSelfDanial(startDateTime, endDateTime, vacancyId);
+    }
+
+    @Operation(summary = "Расчёт количества отказов работодателя")
+    @GetMapping("/countRefusalEmployer/{startDateTime}/{endDateTime}/{vacancyId}")
+//    @PreAuthorize("hasRole('EMPLOYER')")
+    public ResponseEntity<Integer> countRefusalEmployer(@DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss") @PathVariable("startDateTime") LocalDateTime startDateTime,
+                                                        @DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss") @PathVariable("endDateTime") LocalDateTime endDateTime,
+                                                        @PathVariable("vacancyId") Long vacancyId)
+    {
+        return metricsService.getCountRefusalEmployer(startDateTime, endDateTime, vacancyId);
+    }
+
+    @Operation(summary = "Расчёт количества релевантных откликов")
+    @GetMapping("/countRelevantResponses/{startDateTime}/{endDateTime}/{vacancyId}")
+//    @PreAuthorize("hasRole('EMPLOYER')")
+    public ResponseEntity<Integer> countRelevantResponses(@DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss") @PathVariable("startDateTime") LocalDateTime startDateTime,
+                                                          @DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss") @PathVariable("endDateTime") LocalDateTime endDateTime,
+                                                          @PathVariable("vacancyId") Long vacancyId)
+    {
+        return metricsService.getCountRelevantResponses(startDateTime, endDateTime, vacancyId);
+    }
+
+    @Operation(summary = "Расчёт количества приглашений")
+    @GetMapping("/countInvitation/{startDateTime}/{endDateTime}/{vacancyId}")
+//    @PreAuthorize("hasRole('EMPLOYER')")
+    public ResponseEntity<Integer> countInvitation(@DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss") @PathVariable("startDateTime") LocalDateTime startDateTime,
+                                                   @DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss") @PathVariable("endDateTime") LocalDateTime endDateTime,
+                                                   @PathVariable("vacancyId") Long vacancyId)
+    {
+        return metricsService.getСountInvitation(startDateTime, endDateTime, vacancyId);
     }
 
 }

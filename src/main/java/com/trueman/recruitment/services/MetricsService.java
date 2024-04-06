@@ -39,4 +39,32 @@ public class MetricsService {
 
         return ResponseEntity.ok(count);
     }
+
+    public ResponseEntity<Integer> getCountSelfDanial(LocalDateTime startDateTime, LocalDateTime endDateTime, Long vacancyId)
+    {
+        int count = responseRepository.countSelfDanial(startDateTime, endDateTime, vacancyId);
+
+        return ResponseEntity.ok(count);
+    }
+
+    public ResponseEntity<Integer> getCountRefusalEmployer(LocalDateTime startDateTime, LocalDateTime endDateTime, Long vacancyId)
+    {
+        int count = responseRepository.countRefusalEmployer(startDateTime, endDateTime, vacancyId);
+
+        return ResponseEntity.ok(count);
+    }
+
+    public ResponseEntity<Integer> getCountRelevantResponses(LocalDateTime startDateTime, LocalDateTime endDateTime, Long vacancyId)
+    {
+        int count = responseRepository.countRelevantResponses(startDateTime, endDateTime, vacancyId);
+
+        return ResponseEntity.ok(count);
+    }
+
+    public ResponseEntity<Integer> getСountInvitation(LocalDateTime startDateTime, LocalDateTime endDateTime, Long vacancyId)
+    {
+        int count = responseRepository.сountInvitation(startDateTime, endDateTime, vacancyId);
+
+        return ResponseEntity.ok(count);
+    }
 }
