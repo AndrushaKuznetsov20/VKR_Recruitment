@@ -77,6 +77,8 @@ public class SecurityConfiguration {
                         .requestMatchers("/resume/setStatusOk").permitAll()
                         .requestMatchers("/resume/setStatusBlock").permitAll()
 
+                        .requestMatchers("/metrics/**").permitAll()
+
                         .requestMatchers("/message/**").permitAll()
 
                         .anyRequest().authenticated())

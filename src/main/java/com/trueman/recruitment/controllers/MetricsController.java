@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -28,18 +29,30 @@ public class MetricsController {
 
     @Operation(summary = "Расчёт количества созданных вакансий за определённый период времени")
     @GetMapping("/countVacancy/{startDateTime}/{endDateTime}")
+//    @PreAuthorize("hasRole('EMPLOYER')")
     public ResponseEntity<Integer> countVacancy(@DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss") @PathVariable("startDateTime") LocalDateTime startDateTime,
                                                 @DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss") @PathVariable("endDateTime") LocalDateTime endDateTime)
     {
         return metricsService.getCountVacancy(startDateTime, endDateTime);
     }
 
-    @Operation(summary = "Расчёт количества откликов на вакансию")
+    @Operation(summary = "Расчёт общего количества откликов за определённый период времени")
+    @GetMapping("/countAllResponses/{startDateTime}/{endDateTime}")
+//    @PreAuthorize("hasRole('EMPLOYER')")
+    public ResponseEntity<Integer> countAllResponses(@DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss") @PathVariable("startDateTime") LocalDateTime startDateTime,
+                                                  @DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss") @PathVariable("endDateTime") LocalDateTime endDateTime)
+    {
+        return metricsService.getAllResponses(startDateTime, endDateTime);
+    }
+
+    @Operation(summary = "Расчёт количества откликов на вакансию за определённый период времени")
     @GetMapping("/countResponses/{startDateTime}/{endDateTime}/{vacancyId}")
+//    @PreAuthorize("hasRole('EMPLOYER')")
     public ResponseEntity<Integer> countResponses(@DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss") @PathVariable("startDateTime") LocalDateTime startDateTime,
                                                   @DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss") @PathVariable("endDateTime") LocalDateTime endDateTime,
                                                   @PathVariable("vacancyId") Long vacancyId)
     {
         return metricsService.getResponses(startDateTime, endDateTime, vacancyId);
     }
+
 }

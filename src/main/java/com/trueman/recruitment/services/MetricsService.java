@@ -32,4 +32,11 @@ public class MetricsService {
 
         return ResponseEntity.ok(count);
     }
+
+    public ResponseEntity<Integer> getAllResponses(LocalDateTime startDateTime, LocalDateTime endDateTime)
+    {
+        int count = responseRepository.findAll(startDateTime, endDateTime);
+
+        return ResponseEntity.ok(count);
+    }
 }

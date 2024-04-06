@@ -42,11 +42,11 @@ public class ResponseController {
     }
 
     @Operation(summary = "Метод создания отклика")
-    @PostMapping("/create/{userId}/{vacancyId}")
+    @PostMapping("/create/{vacancyId}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<String> createResponse(@PathVariable("userId") Long userId, @PathVariable("vacancyId") Long vacancyId)
+    public ResponseEntity<String> createResponse(@PathVariable("vacancyId") Long vacancyId)
     {
-        return responseService.createResponse(userId, vacancyId);
+        return responseService.createResponse(vacancyId);
     }
 
     @Operation(summary = "Метод удаления отклика")
@@ -57,4 +57,10 @@ public class ResponseController {
         return responseService.deleteResponse(userId, vacancyId);
     }
 
+    @Operation(summary = "Метод установки статуса 'Самоотказ'")
+    @PutMapping("/setStatusSelfDenial/{userId}/{vacancyId}")
+    public ResponseEntity<String> setStatusResponseSelfDenial(@PathVariable("userId") Long userId, @PathVariable("vacancyId") Long vacancyId)
+    {
+        return responseService.setStatusResponseSelfDenial(userId, vacancyId);
+    }
 }

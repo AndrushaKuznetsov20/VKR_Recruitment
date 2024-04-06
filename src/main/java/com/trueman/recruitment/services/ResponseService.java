@@ -21,8 +21,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ResponseService {
     private final VacancyRepository vacancyRepository;
-    private final UserRepository userRepository;
     private final ResponseRepository responseRepository;
+    private final UserService userService;
 
     public ResponseEntity<List<User>> listUsers(Long vacancyId)
     {
@@ -51,10 +51,11 @@ public class ResponseService {
         return new ResponseEntity<>(vacancyList,HttpStatus.OK);
     }
 
-    public ResponseEntity<String> createResponse(Long userId, Long vacancyId)
+    public ResponseEntity<String> createResponse(Long vacancyId)
     {
         Vacancy vacancy = vacancyRepository.findById(vacancyId).orElse(null);
-        User user = userRepository.findById(userId).orElse(null);
+        User user = userService.getCurrentUser();
+        Long userId = user.getId();
 
         Response existingResponse = responseRepository.findByUserIdAndVacancyId(userId, vacancyId);
 
@@ -68,6 +69,7 @@ public class ResponseService {
         response.setUser(user);
         response.setVacancy(vacancy);
         response.setCurrentDateTime();
+        response.setStatusResponse("Не обработан!");
 
         responseRepository.save(response);
 
@@ -79,5 +81,13 @@ public class ResponseService {
         Response response = responseRepository.findByUserIdAndVacancyId(userId, vacancyId);
         responseRepository.delete(response);
         return ResponseEntity.ok("Отклик успешно удалён!");
+    }
+
+    public ResponseEntity<String> setStatusResponseSelfDenial(Long userId, Long vacancyId)
+    {
+        Response response = responseRepository.findByUserIdAndVacancyId(userId, vacancyId);
+        response.setStatusResponse("Самоотказ!");
+        responseRepository.save(response);
+        return ResponseEntity.ok("Статус отклика сменён на 'Самоотказ'");
     }
 }

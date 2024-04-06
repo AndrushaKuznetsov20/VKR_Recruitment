@@ -35,6 +35,10 @@ public class Response {
     @Column(name = "currentDateTime")
     private LocalDateTime currentDateTime;
 
+    @Description("Статус отклика")
+    @Column(name = "statusResponse")
+    private String statusResponse;
+
     public void setCurrentDateTime()
     {
         this.currentDateTime = LocalDateTime.now();

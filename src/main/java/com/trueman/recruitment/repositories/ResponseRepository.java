@@ -18,4 +18,7 @@ public interface ResponseRepository extends JpaRepository<Response, Long> {
                        @Param("endDateTime") LocalDateTime endDateTime,
                        @Param("vacancyId") Long vacancyId);
 
+    @Query("SELECT r FROM Response r WHERE r.currentDateTime BETWEEN :startDateTime AND :endDateTime")
+    int findAll(@Param("startDateTime") LocalDateTime startDateTime,
+                           @Param("endDateTime") LocalDateTime endDateTime);
 }
