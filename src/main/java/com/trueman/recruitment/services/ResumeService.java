@@ -86,6 +86,8 @@ public class ResumeService {
                 .build();
 
         resume.setStatusResume(status_resume_default);
+        resume.calculationAge();
+
         resumeRepository.save(resume);
 
         return ResponseEntity.ok("Резюме успешно создано и отправлено на проверку модератору!");
@@ -137,7 +139,7 @@ public class ResumeService {
         return ResponseEntity.ok("Резюме успешно заблокировано!");
     }
 
-    public ResponseEntity<List<Resume>> getSearchResumes(String fullName, String city, String education)
+    public ResponseEntity<List<Resume>> getSearchResumes(String fullName, String city, String skills, String education, Integer minAge, Integer maxAge)
     {
         Specification<Resume> specification = Specification.where(null);
 
@@ -145,13 +147,25 @@ public class ResumeService {
         {
             specification = specification.and(ResumeSpecification.findByFullName(fullName));
         }
+
         if(city != null && !city.isEmpty())
         {
             specification = specification.and(ResumeSpecification.findByCity(city));
         }
+
+        if(skills != null && !skills.isEmpty())
+        {
+            specification = specification.and(ResumeSpecification.findBySkills(skills));
+        }
+
         if(education != null && !education.isEmpty())
         {
             specification = specification.and(ResumeSpecification.findByEducation(education));
+        }
+
+        if(minAge != null && maxAge != null)
+        {
+            specification = specification.and(ResumeSpecification.findByAge(minAge, maxAge));
         }
 
         List<Resume> resumes = resumeRepository.findAll(specification);

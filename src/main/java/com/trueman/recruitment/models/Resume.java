@@ -5,6 +5,7 @@ import jdk.jfr.Description;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.Period;
 
 @Data
 @Builder
@@ -25,6 +26,10 @@ public class Resume {
     @Description("Дата рождения")
     @Column(name = "birthDate")
     private LocalDate birthDate;
+
+    @Description("Возраст")
+    @Column(name = "age")
+    private Integer age;
 
     @Description("Город")
     @Column(name = "city")
@@ -50,4 +55,14 @@ public class Resume {
     @OneToOne
     @JoinColumn
     private User user;
+
+    public void calculationAge()
+    {
+        if(birthDate != null)
+        {
+            LocalDate localDateNow = LocalDate.now();
+            Period period = Period.between(birthDate, localDateNow);
+            this.age = period.getYears();
+        }
+    }
 }

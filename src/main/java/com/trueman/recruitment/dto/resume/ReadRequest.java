@@ -16,6 +16,8 @@ public class ReadRequest {
 
     private LocalDate birthDate;
 
+    private Integer age;
+
     private String city;
 
     private String skills;

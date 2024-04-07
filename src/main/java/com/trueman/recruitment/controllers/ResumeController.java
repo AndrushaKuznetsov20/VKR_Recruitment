@@ -108,8 +108,11 @@ public class ResumeController {
     //    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<List<Resume>> searchResumes(@RequestParam(required = false) String fullName,
                                                       @RequestParam(required = false) String city,
-                                                      @RequestParam(required = false) String education)
+                                                      @RequestParam(required = false) String skills,
+                                                      @RequestParam(required = false) String education,
+                                                      @RequestParam(required = false) Integer minAge,
+                                                      @RequestParam(required = false) Integer maxAge)
     {
-        return resumeService.getSearchResumes(fullName,city,education);
+        return resumeService.getSearchResumes(fullName,city,skills,education,minAge,maxAge);
     }
 }
