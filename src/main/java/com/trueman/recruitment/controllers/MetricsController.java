@@ -29,7 +29,7 @@ public class MetricsController {
 
     @Operation(summary = "Расчёт количества созданных вакансий за определённый период времени")
     @GetMapping("/countVacancy/{startDateTime}/{endDateTime}")
-//    @PreAuthorize("hasRole('EMPLOYER')")
+    @PreAuthorize("hasRole('EMPLOYER')")
     public ResponseEntity<Integer> countVacancy(@DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss") @PathVariable("startDateTime") LocalDateTime startDateTime,
                                                 @DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss") @PathVariable("endDateTime") LocalDateTime endDateTime)
     {
@@ -38,7 +38,7 @@ public class MetricsController {
 
     @Operation(summary = "Расчёт общего количества откликов за определённый период времени")
     @GetMapping("/countAllResponses/{startDateTime}/{endDateTime}")
-//    @PreAuthorize("hasRole('EMPLOYER')")
+    @PreAuthorize("hasRole('EMPLOYER')")
     public ResponseEntity<Integer> countAllResponses(@DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss") @PathVariable("startDateTime") LocalDateTime startDateTime,
                                                      @DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss") @PathVariable("endDateTime") LocalDateTime endDateTime)
     {
@@ -47,7 +47,7 @@ public class MetricsController {
 
     @Operation(summary = "Расчёт количества откликов на вакансию за определённый период времени")
     @GetMapping("/countResponses/{startDateTime}/{endDateTime}/{vacancyId}")
-//    @PreAuthorize("hasRole('EMPLOYER')")
+    @PreAuthorize("hasRole('EMPLOYER')")
     public ResponseEntity<Integer> countResponses(@DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss") @PathVariable("startDateTime") LocalDateTime startDateTime,
                                                   @DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss") @PathVariable("endDateTime") LocalDateTime endDateTime,
                                                   @PathVariable("vacancyId") Long vacancyId)
@@ -57,7 +57,7 @@ public class MetricsController {
 
     @Operation(summary = "Расчёт количества самоотказов")
     @GetMapping("/countSelfDanial/{startDateTime}/{endDateTime}/{vacancyId}")
-//    @PreAuthorize("hasRole('EMPLOYER')")
+    @PreAuthorize("hasRole('EMPLOYER')")
     public ResponseEntity<Integer> countSelfDanial(@DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss") @PathVariable("startDateTime") LocalDateTime startDateTime,
                                                    @DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss") @PathVariable("endDateTime") LocalDateTime endDateTime,
                                                    @PathVariable("vacancyId") Long vacancyId)
@@ -67,7 +67,7 @@ public class MetricsController {
 
     @Operation(summary = "Расчёт количества отказов работодателя")
     @GetMapping("/countRefusalEmployer/{startDateTime}/{endDateTime}/{vacancyId}")
-//    @PreAuthorize("hasRole('EMPLOYER')")
+    @PreAuthorize("hasRole('EMPLOYER')")
     public ResponseEntity<Integer> countRefusalEmployer(@DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss") @PathVariable("startDateTime") LocalDateTime startDateTime,
                                                         @DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss") @PathVariable("endDateTime") LocalDateTime endDateTime,
                                                         @PathVariable("vacancyId") Long vacancyId)
@@ -77,7 +77,7 @@ public class MetricsController {
 
     @Operation(summary = "Расчёт количества релевантных откликов")
     @GetMapping("/countRelevantResponses/{startDateTime}/{endDateTime}/{vacancyId}")
-//    @PreAuthorize("hasRole('EMPLOYER')")
+    @PreAuthorize("hasRole('EMPLOYER')")
     public ResponseEntity<Integer> countRelevantResponses(@DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss") @PathVariable("startDateTime") LocalDateTime startDateTime,
                                                           @DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss") @PathVariable("endDateTime") LocalDateTime endDateTime,
                                                           @PathVariable("vacancyId") Long vacancyId)
@@ -87,7 +87,7 @@ public class MetricsController {
 
     @Operation(summary = "Расчёт количества приглашений")
     @GetMapping("/countInvitation/{startDateTime}/{endDateTime}/{vacancyId}")
-//    @PreAuthorize("hasRole('EMPLOYER')")
+    @PreAuthorize("hasRole('EMPLOYER')")
     public ResponseEntity<Integer> countInvitation(@DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss") @PathVariable("startDateTime") LocalDateTime startDateTime,
                                                    @DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss") @PathVariable("endDateTime") LocalDateTime endDateTime,
                                                    @PathVariable("vacancyId") Long vacancyId)

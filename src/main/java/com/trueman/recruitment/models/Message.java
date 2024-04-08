@@ -2,6 +2,7 @@ package com.trueman.recruitment.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import jdk.jfr.Description;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -20,15 +21,19 @@ public class Message {
     @Column(name = "id")
     private Long id;
 
+    @Description("Текст сообщения")
     @Column(name = "content")
     private String content;
 
+    @Description("Отправитель")
     @Column(name = "sender")
     private Long sender;
 
+    @Description("Получатель")
     @Column(name = "receiver")
     private Long receiver;
 
+    @Description("Дата отправки сообщения")
     @Column(name = "date")
     private LocalDateTime currentDateTime;
 

@@ -29,7 +29,7 @@ public class ResumeController {
 
     @Operation(summary = "Получение списка резюме")
     @GetMapping("/list")
-//    @PreAuthorize("hasRole('MODER')")
+    @PreAuthorize("hasRole('MODER')")
     public ResponseEntity<ListResponse> getAllResumes()
     {
         return resumeService.getAllResumes();
@@ -37,7 +37,7 @@ public class ResumeController {
 
     @Operation(summary = "Получение резюме по Id")
     @GetMapping("/myResume")
-//    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Optional<Resume>> getMyResume()
     {
         return resumeService.myResume();
@@ -52,7 +52,7 @@ public class ResumeController {
 
     @Operation(summary = "Создание резюме")
     @PostMapping("/create")
-//    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<String> createResume(@RequestBody @Valid CreateRequest createRequest, BindingResult bindingResult)
     {
         if (bindingResult.hasErrors())
@@ -66,7 +66,7 @@ public class ResumeController {
 
     @Operation(summary = "Обновление резюме")
     @PutMapping("/update/{resumeId}")
-//    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<String> updateResume(@RequestBody @Valid UpdateRequest updateRequest,
                                                BindingResult bindingResult, @PathVariable("resumeId") Long resumeId)
     {
@@ -81,7 +81,7 @@ public class ResumeController {
 
     @Operation(summary = "Удаление резюме")
     @DeleteMapping("/delete/{resumeId}")
-//    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<String> deleteResume(@PathVariable("resumeId") Long resumeId)
     {
         return resumeService.deleteResume(resumeId);
@@ -89,7 +89,7 @@ public class ResumeController {
 
     @Operation(summary = "Публикация резюме")
     @PutMapping("/setStatusOk/{resumeId}")
-//    @PreAuthorize("hasRole('MODER')")
+    @PreAuthorize("hasRole('MODER')")
     public ResponseEntity<String> setStatusOk(@PathVariable("resumeId") Long resumeId)
     {
         return resumeService.setStatusOk(resumeId);
@@ -97,7 +97,7 @@ public class ResumeController {
 
     @Operation(summary = "Блокировка резюме")
     @PutMapping("/setStatusBlock/{resumeId}")
-//    @PreAuthorize("hasRole('MODER')")
+    @PreAuthorize("hasRole('MODER')")
     public ResponseEntity<String> setStatusBlock(@PathVariable("resumeId") Long resumeId)
     {
         return resumeService.setStatusBlock(resumeId);
@@ -105,7 +105,7 @@ public class ResumeController {
 
     @Operation(summary = "Поиск резюме по заданным параметрам")
     @GetMapping("/searchResumes")
-    //    @PreAuthorize("hasRole('USER')")
+        @PreAuthorize("hasRole('USER')")
     public ResponseEntity<List<Resume>> searchResumes(@RequestParam(required = false) String fullName,
                                                       @RequestParam(required = false) String city,
                                                       @RequestParam(required = false) String skills,

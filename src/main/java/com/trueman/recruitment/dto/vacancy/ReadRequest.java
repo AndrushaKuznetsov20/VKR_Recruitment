@@ -11,6 +11,8 @@ public class ReadRequest {
     private String name_vacancy;
     private String description_vacancy;
     private String conditions_and_requirements;
+    private Integer wage;
+    private String schedule;
     private String status_vacancy;
     private User user;
 }

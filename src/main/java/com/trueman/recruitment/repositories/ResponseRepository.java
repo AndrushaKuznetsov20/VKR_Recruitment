@@ -10,6 +10,7 @@ import java.util.List;
 
 public interface ResponseRepository extends JpaRepository<Response, Long> {
     List<Response> findByVacancyId(@Param("vacancyId") Long vacancyId);
+    void deleteByVacancyId(Long vacancyId);
     List<Response> findByUserId(@Param("userId") Long userId);
     Response findByUserIdAndVacancyId(@Param("userId") Long userId, @Param("vacancyId") Long vacancyId);
 

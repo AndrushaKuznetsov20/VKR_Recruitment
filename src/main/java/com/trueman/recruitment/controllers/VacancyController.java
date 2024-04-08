@@ -108,4 +108,16 @@ public class VacancyController {
         return vacancyService.setStatusBlock(vacancyId);
     }
 
+    @Operation(summary = "Поиск вакансий по заданным критериям")
+    @GetMapping("/searchVacancies")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<List<Vacancy>> searchVacancy(@RequestParam(required = false) String nameVacancy,
+                                                       @RequestParam(required = false) String description,
+                                                       @RequestParam(required = false) String schedule,
+                                                       @RequestParam(required = false) String conditions_and_requirements,
+                                                       @RequestParam(required = false) Integer minWage,
+                                                       @RequestParam(required = false) Integer maxWage)
+    {
+        return vacancyService.getSearchVacancies(nameVacancy,description,schedule,conditions_and_requirements,minWage,maxWage);
+    }
 }

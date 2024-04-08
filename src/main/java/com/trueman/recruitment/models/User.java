@@ -28,18 +28,23 @@ public class User implements UserDetails
     @Column(name = "id")
     private Long id;
 
+    @Description("Имя пользователя")
     @Column(name = "username", unique = true, nullable = false)
     private String username;
 
+    @Description("Пароль")
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Description("Электронная почта")
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
+    @Description("Активность пользователя")
     @Column(name = "active")
     private boolean active;
 
+    @Description("Роль пользователя")
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     private Role role;

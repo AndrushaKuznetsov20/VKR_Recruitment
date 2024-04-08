@@ -22,18 +22,31 @@ public class Vacancy {
     @Column(name = "id")
     private Long id;
 
+    @Description("Наименование вакансии")
     @Column(name = "name_vacancy", unique = true, nullable = false)
     private String name_vacancy;
 
+    @Description("Описание вакансии")
     @Column(name = "description_vacancy", nullable = false)
     private String description_vacancy;
 
+    @Description("Условия и требования")
     @Column(name = "conditions_and_requirements", nullable = false)
     private String conditions_and_requirements;
 
+    @Description("Заработная плата")
+    @Column(name = "wage")
+    private Integer wage;
+
+    @Description("График")
+    @Column(name = "schedule")
+    private String schedule;
+
+    @Description("Статус вакансии")
     @Column(name = "status_vacancy", nullable = false)
     private String status_vacancy;
 
+    @Description("Дата создания вакансии")
     @Column(name = "createDateTime")
     private LocalDateTime createDateTime;
 

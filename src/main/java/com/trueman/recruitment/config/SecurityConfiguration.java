@@ -56,6 +56,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/vacancy/listVacanciesStatusOk").hasRole("EMPLOYER, USER")
                         .requestMatchers("/vacancy/setStatusOk").hasRole("MODER")
                         .requestMatchers("/vacancy/setStatusBlock").hasRole("MODER")
+                        .requestMatchers("/vacancy/searchVacancies").hasRole("USER")
 
                         .requestMatchers("/user/list").hasRole("ADMIN")
                         .requestMatchers("/user/block").hasRole("ADMIN")
@@ -67,6 +68,10 @@ public class SecurityConfiguration {
                         .requestMatchers("/response/listUsers").hasRole("EMPLOYER")
                         .requestMatchers("/response/listVacancy").hasRole("USER")
                         .requestMatchers("/response/delete").hasRole("USER")
+                        .requestMatchers("/response/setStatusSelfDenial").hasRole("EMPLOYER")
+                        .requestMatchers("/response/setStatusRefusalEmployer").hasRole("EMPLOYER")
+                        .requestMatchers("/response/setStatusRelevant").hasRole("EMPLOYER")
+                        .requestMatchers("/response/setStatusInvitation").hasRole("EMPLOYER")
 
                         .requestMatchers("/resume/list").permitAll()
                         .requestMatchers("/resume/myResume").permitAll()
@@ -77,7 +82,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/resume/setStatusOk").permitAll()
                         .requestMatchers("/resume/setStatusBlock").permitAll()
 
-                        .requestMatchers("/metrics/**").permitAll()
+                        .requestMatchers("/metrics/**").hasRole("EMPLOYER")
 
                         .requestMatchers("/message/**").permitAll()
 

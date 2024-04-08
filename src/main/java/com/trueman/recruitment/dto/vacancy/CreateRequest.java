@@ -24,4 +24,10 @@ public class CreateRequest {
     @NotBlank(message = "Условия и требования к вакансии не могут быть пустыми")
     private String conditions_and_requirements;
 
+    @Schema(description = "Заработная плата")
+    private Integer wage;
+
+    @Schema(description = "График")
+    @NotBlank(message = "График не может быть пустым")
+    private String schedule;
 }
