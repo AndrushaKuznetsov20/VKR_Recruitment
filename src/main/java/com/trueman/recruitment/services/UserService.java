@@ -1,13 +1,12 @@
 package com.trueman.recruitment.services;
 
+import com.trueman.recruitment.dto.auth.JwtAuthenticationResponse;
+import com.trueman.recruitment.dto.auth.SignInRequest;
 import com.trueman.recruitment.dto.user.ListResponse;
 import com.trueman.recruitment.dto.user.ReadRequest;
 import com.trueman.recruitment.dto.user.UpdateRequest;
-import com.trueman.recruitment.models.Response;
 import com.trueman.recruitment.models.User;
-import com.trueman.recruitment.models.Vacancy;
 import com.trueman.recruitment.models.enums.Role;
-import com.trueman.recruitment.repositories.ResponseRepository;
 import com.trueman.recruitment.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -162,4 +161,5 @@ public class UserService {
         user.setRole(Role.ROLE_EMPLOYER);
         save(user);
     }
+
 }

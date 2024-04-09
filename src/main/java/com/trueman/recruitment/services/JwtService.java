@@ -1,12 +1,16 @@
 package com.trueman.recruitment.services;
 
+import com.trueman.recruitment.dto.auth.SignInRequest;
 import com.trueman.recruitment.models.User;
+import com.trueman.recruitment.repositories.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +18,15 @@ import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
 @Service
+@RequiredArgsConstructor
 public class JwtService {
     @Value("${token.signing.key}")
     private String jwtSigningKey;
+    private final UserRepository userRepository;
 
     public String extractUserName(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -69,4 +76,5 @@ public class JwtService {
         byte[] keyBytes = Decoders.BASE64.decode(jwtSigningKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
+
 }
