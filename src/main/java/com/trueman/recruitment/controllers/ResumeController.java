@@ -28,11 +28,12 @@ public class ResumeController {
     private final ResumeService resumeService;
 
     @Operation(summary = "Получение списка резюме")
-    @GetMapping("/list")
+    @GetMapping("/list/{pageNo}")
     @PreAuthorize("hasRole('MODER')")
-    public ResponseEntity<ListResponse> getAllResumes()
+    public ResponseEntity<ListResponse> getAllResumes(@PathVariable("pageNo") int pageNo)
     {
-        return resumeService.getAllResumes();
+        int pageSize = 8;
+        return resumeService.getAllResumes(pageNo, pageSize);
     }
 
     @Operation(summary = "Получение резюме по Id")

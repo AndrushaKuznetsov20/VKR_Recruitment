@@ -48,17 +48,18 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/auth/**").permitAll()
 
-                        .requestMatchers("/vacancy/list").permitAll()
+                        .requestMatchers("/vacancy/list").hasRole("MODER")
                         .requestMatchers("/vacancy/create").hasRole("EMPLOYER")
                         .requestMatchers("/vacancy/update").hasRole("EMPLOYER")
                         .requestMatchers("/vacancy/delete").hasRole("EMPLOYER")
                         .requestMatchers("/vacancy/listMyVacancies").permitAll()
-                        .requestMatchers("/vacancy/listVacanciesStatusOk").hasRole("EMPLOYER, USER")
+                        .requestMatchers("/vacancy/listVacanciesStatusOk").permitAll()
                         .requestMatchers("/vacancy/setStatusOk").hasRole("MODER")
                         .requestMatchers("/vacancy/setStatusBlock").hasRole("MODER")
                         .requestMatchers("/vacancy/searchVacancies").hasRole("USER")
 
                         .requestMatchers("/user/list").hasRole("ADMIN")
+                        .requestMatchers("/user/findByUser").permitAll()
                         .requestMatchers("/user/block").hasRole("ADMIN")
                         .requestMatchers("/user/inBlock").hasRole("ADMIN")
                         .requestMatchers("/user/changeRole").hasRole("ADMIN")

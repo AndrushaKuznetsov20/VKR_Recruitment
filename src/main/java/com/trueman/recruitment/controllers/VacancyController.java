@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -30,11 +31,12 @@ public class VacancyController {
     private final VacancyService vacancyService;
 
     @Operation(summary = "Получение списка вакансий")
-    @GetMapping("/list")
+    @GetMapping("/list/{pageNo}")
     @PreAuthorize("hasRole('MODER')")
-    public ResponseEntity<ListResponse> getAllVacancies()
+    public ResponseEntity<ListResponse> getAllVacancies(@PathVariable(value = "pageNo") int pageNo)
     {
-        return vacancyService.getAllVacancies();
+        int pageSize = 8;
+        return vacancyService.getAllVacancies(pageNo, pageSize);
     }
 
     @Operation(summary = "Получение списка вакансий определённого пользователя")
@@ -46,11 +48,12 @@ public class VacancyController {
     }
 
     @Operation(summary = "Получение списка опубликованных вакансий")
-    @GetMapping("/listVacanciesStatusOk")
-    @PreAuthorize("hasRole('EMPLOYER','USER')")
-    public ResponseEntity<List<Vacancy>> getListVacanciesStatusOk()
+    @GetMapping("/listVacanciesStatusOk/{pageNo}")
+//    @PreAuthorize("hasRole('EMPLOYER','USER')")
+    public ResponseEntity<ListResponse> getListVacanciesStatusOk(@PathVariable(value = "pageNo") int pageNo)
     {
-        return vacancyService.listVacanciesStatusOk();
+        int pageSize = 8;
+        return vacancyService.listVacanciesStatusOk(pageNo, pageSize);
     }
 
     @Operation(summary = "Создание вакансии")

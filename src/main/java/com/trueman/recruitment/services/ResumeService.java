@@ -10,6 +10,9 @@ import com.trueman.recruitment.models.Vacancy;
 import com.trueman.recruitment.repositories.ResumeRepository;
 import com.trueman.recruitment.specification.ResumeSpecification;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,17 +30,20 @@ public class ResumeService {
     private final ResumeRepository resumeRepository;
     private final UserService userService;
 
-    public ResponseEntity<ListResponse> getAllResumes()
+    public ResponseEntity<ListResponse> getAllResumes(int pageNo, int pageSize)
     {
-        List<Resume> resumes = resumeRepository.findAll();
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Page<Resume> resumes = resumeRepository.findAll(pageable);
+
         List<ReadRequest> resumeDTOlList = new ArrayList<>();
 
-        for(Resume resume : resumes)
+        for(Resume resume : resumes.getContent())
         {
             ReadRequest resumeDTO = new ReadRequest();
             resumeDTO.setId(resume.getId());
             resumeDTO.setFullName(resume.getFullName());
             resumeDTO.setBirthDate(resume.getBirthDate());
+            resumeDTO.setAge(resume.getAge());
             resumeDTO.setCity(resume.getCity());
             resumeDTO.setSkills(resume.getSkills());
             resumeDTO.setEducation(resume.getEducation());

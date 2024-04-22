@@ -13,6 +13,10 @@ import com.trueman.recruitment.specification.ResumeSpecification;
 import com.trueman.recruitment.specification.VacancySpecification;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,11 +33,14 @@ public class VacancyService {
     private final VacancyRepository vacancyRepository;
     private final ResponseRepository responseRepository;
 
-    public ResponseEntity<ListResponse> getAllVacancies() {
-        List<Vacancy> vacancies = vacancyRepository.findAll();
+    public ResponseEntity<ListResponse> getAllVacancies(int pageNo, int pageSize)
+    {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Page<Vacancy> vacancies = vacancyRepository.findAll(pageable);
         List<ReadRequest> vacancyDTOList = new ArrayList<>();
 
-        for (Vacancy vacancy : vacancies) {
+        for (Vacancy vacancy : vacancies.getContent())
+        {
             ReadRequest vacancyDTO = new ReadRequest();
             vacancyDTO.setId(vacancy.getId());
             vacancyDTO.setName_vacancy(vacancy.getName_vacancy());
@@ -61,17 +68,37 @@ public class VacancyService {
         return new ResponseEntity<>(vacancies, HttpStatus.OK);
     }
 
-    public ResponseEntity<List<Vacancy>> listVacanciesStatusOk()
+    public ResponseEntity<ListResponse> listVacanciesStatusOk(int pageNo, int pageSize)
     {
-        List<Vacancy> vacancies;
-        vacancies = vacancyRepository.findAllStatusOk();
-        return new ResponseEntity<>(vacancies, HttpStatus.OK);
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Page<Vacancy> vacancies = vacancyRepository.findAllStatusOk(pageable);
+
+        List<ReadRequest> vacancyDTOList = new ArrayList<>();
+
+        for (Vacancy vacancy : vacancies.getContent())
+        {
+            ReadRequest vacancyDTO = new ReadRequest();
+            vacancyDTO.setId(vacancy.getId());
+            vacancyDTO.setName_vacancy(vacancy.getName_vacancy());
+            vacancyDTO.setDescription_vacancy(vacancy.getDescription_vacancy());
+            vacancyDTO.setConditions_and_requirements(vacancy.getConditions_and_requirements());
+            vacancyDTO.setWage(vacancy.getWage());
+            vacancyDTO.setSchedule(vacancy.getSchedule());
+            vacancyDTO.setStatus_vacancy(vacancy.getStatus_vacancy());
+            vacancyDTO.setUser(vacancy.getUser());
+            vacancyDTOList.add(vacancyDTO);
+        }
+
+        ListResponse vacancyListDTO = new ListResponse();
+        vacancyListDTO.setVacancies(vacancyDTOList);
+
+        return new ResponseEntity<>(vacancyListDTO, HttpStatus.OK);
     }
 
     public ResponseEntity<String> createVacancy(CreateRequest request)
     {
         User user = userService.getCurrentUser();
-        String status_vacancy_default = "Не модерировано!";
+        String status_vacancy_default = "Не модерирована!";
 
         var vacancy = Vacancy.builder()
                 .name_vacancy(request.getName_vacancy())
@@ -105,7 +132,7 @@ public class VacancyService {
 
     public ResponseEntity<String> setStatusOk(Long vacancyId)
     {
-        String status_vacancy = "Опубликовано!";
+        String status_vacancy = "Опубликована!";
 
         Vacancy vacancy = vacancyRepository.findById(vacancyId).orElse(null);
         vacancy.setStatus_vacancy(status_vacancy);
@@ -117,7 +144,7 @@ public class VacancyService {
 
     public ResponseEntity<String> setStatusBlock(Long vacancyId)
     {
-        String status_vacancy = "Заблокировано!";
+        String status_vacancy = "Заблокирована!";
 
         Vacancy vacancy = vacancyRepository.findById(vacancyId).orElse(null);
         vacancy.setStatus_vacancy(status_vacancy);

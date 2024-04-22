@@ -1,7 +1,5 @@
 package com.trueman.recruitment.services;
 
-import com.trueman.recruitment.dto.auth.JwtAuthenticationResponse;
-import com.trueman.recruitment.dto.auth.SignInRequest;
 import com.trueman.recruitment.dto.user.ListResponse;
 import com.trueman.recruitment.dto.user.ReadRequest;
 import com.trueman.recruitment.dto.user.UpdateRequest;
@@ -9,6 +7,9 @@ import com.trueman.recruitment.models.User;
 import com.trueman.recruitment.models.enums.Role;
 import com.trueman.recruitment.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,11 +27,14 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoderService passwordEncoderService;
 
-    public ResponseEntity<ListResponse> getAllUsers() {
-        List<User> users = userRepository.findAll();
+    public ResponseEntity<ListResponse> getAllUsers(int pageNo, int pageSize) {
+
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Page<User> users = userRepository.findAll(pageable);
+
         List<ReadRequest> userDTOList = new ArrayList<>();
 
-        for (User user : users) {
+        for (User user : users.getContent()) {
             ReadRequest userDTO = new ReadRequest();
             userDTO.setId(user.getId());
             userDTO.setUsername(user.getUsername());
@@ -65,15 +69,17 @@ public class UserService {
         return save(user);
     }
 
-    public User update(Long userId, UpdateRequest updateRequest)
+    public ResponseEntity<String> update(UpdateRequest updateRequest)
     {
-        User user = userRepository.findById(userId).orElse(null);
+        User user = getCurrentUser();
 
         user.setUsername(updateRequest.getUsername());
         user.setPassword(passwordEncoderService.passwordEncoder().encode(updateRequest.getPassword()));
         user.setEmail(updateRequest.getEmail());
 
-        return userRepository.save(user);
+        userRepository.save(user);
+
+        return ResponseEntity.ok("Данные пользователя успешно обновлены");
     }
     public User getByUsername(String username) {
         return userRepository.findByUsername(username)
@@ -136,6 +142,12 @@ public class UserService {
     public User getCurrentUser() {
         var username = SecurityContextHolder.getContext().getAuthentication().getName();
         return getByUsername(username);
+    }
+
+    public ResponseEntity<User> findByUserId(Long userId)
+    {
+        User user = userRepository.findById(userId).orElse(null);
+        return new ResponseEntity<>(user,HttpStatus.OK);
     }
     @Deprecated
     public void getUser() {
