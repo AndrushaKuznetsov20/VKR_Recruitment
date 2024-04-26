@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
@@ -39,16 +40,17 @@ public class ResumeController {
     @Operation(summary = "Получение резюме по Id")
     @GetMapping("/myResume")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<Optional<Resume>> getMyResume()
+    public ResponseEntity<?> getMyResume()
     {
         return resumeService.myResume();
     }
 
     @Operation(summary = "Получение списка опубликованных резюме")
-    @GetMapping("/listResumeStatusOk")
-    public ResponseEntity<List<Resume>> getListResumesStatusOk()
+    @GetMapping("/listResumeStatusOk/{pageNo}")
+    public ResponseEntity<ListResponse> getListResumesStatusOk(@PathVariable("pageNo") int pageNo)
     {
-        return resumeService.getListResumesStatusOk();
+        int pageSize = 8;
+        return resumeService.getListResumesStatusOk(pageNo, pageSize);
     }
 
     @Operation(summary = "Создание резюме")

@@ -1,6 +1,8 @@
 package com.trueman.recruitment.repositories;
 
 import com.trueman.recruitment.models.Resume;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -14,7 +16,7 @@ public interface ResumeRepository extends JpaRepository<Resume, Long>, JpaSpecif
     List<Resume> findAll();
 
     @Query("SELECT r FROM Resume r WHERE r.statusResume = 'Опубликовано!'")
-    List<Resume> findAllStatusOk();
+    Page<Resume> findAllStatusOk(Pageable pageable);
 
     Optional<Resume> findByUserId(@Param("userId") Long userId);
 

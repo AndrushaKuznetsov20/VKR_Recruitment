@@ -4,6 +4,7 @@ import com.trueman.recruitment.dto.vacancy.CreateRequest;
 import com.trueman.recruitment.dto.vacancy.ReadRequest;
 import com.trueman.recruitment.dto.vacancy.ListResponse;
 import com.trueman.recruitment.dto.vacancy.UpdateRequest;
+import com.trueman.recruitment.models.Response;
 import com.trueman.recruitment.models.User;
 import com.trueman.recruitment.models.Vacancy;
 import com.trueman.recruitment.repositories.VacancyRepository;
@@ -40,11 +41,12 @@ public class VacancyController {
     }
 
     @Operation(summary = "Получение списка вакансий определённого пользователя")
-    @GetMapping("/listMyVacancies")
+    @GetMapping("/listMyVacancies/{pageNo}")
     @PreAuthorize("hasRole('EMPLOYER')")
-    public ResponseEntity<List<Vacancy>> getListMyVacancies()
+    public ResponseEntity<ListResponse> getListMyVacancies(@PathVariable(value = "pageNo") int pageNo)
     {
-        return vacancyService.listMyVacancies();
+        int pageSize = 8;
+        return vacancyService.listMyVacancies(pageNo, pageSize);
     }
 
     @Operation(summary = "Получение списка опубликованных вакансий")
@@ -61,6 +63,11 @@ public class VacancyController {
     @PreAuthorize("hasRole('EMPLOYER')")
     public ResponseEntity<String> createVacancy(@RequestBody @Valid CreateRequest request, BindingResult bindingResult)
     {
+        Integer wage = request.getWage();
+        if(wage == null && wage <= 0)
+        {
+            return ResponseEntity.ok("Заработная плата должна быть целым числом больше нуля");
+        }
         if (bindingResult.hasErrors())
         {
             StringBuilder errorMessage = new StringBuilder();
@@ -113,7 +120,7 @@ public class VacancyController {
 
     @Operation(summary = "Поиск вакансий по заданным критериям")
     @GetMapping("/searchVacancies")
-    @PreAuthorize("hasRole('USER')")
+//    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<List<Vacancy>> searchVacancy(@RequestParam(required = false) String nameVacancy,
                                                        @RequestParam(required = false) String description,
                                                        @RequestParam(required = false) String schedule,

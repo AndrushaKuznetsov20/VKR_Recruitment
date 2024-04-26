@@ -4,6 +4,7 @@ import com.trueman.recruitment.dto.vacancy.CreateRequest;
 import com.trueman.recruitment.dto.vacancy.ReadRequest;
 import com.trueman.recruitment.dto.vacancy.ListResponse;
 import com.trueman.recruitment.dto.vacancy.UpdateRequest;
+import com.trueman.recruitment.models.Response;
 import com.trueman.recruitment.models.Resume;
 import com.trueman.recruitment.models.User;
 import com.trueman.recruitment.models.Vacancy;
@@ -60,12 +61,32 @@ public class VacancyService {
 
     }
 
-    public ResponseEntity<List<Vacancy>> listMyVacancies()
+    public ResponseEntity<ListResponse> listMyVacancies(int pageNo, int pageSize)
     {
-        List<Vacancy> vacancies;
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
         User user = userService.getCurrentUser();
-        vacancies = vacancyRepository.findByUserId(user.getId());
-        return new ResponseEntity<>(vacancies, HttpStatus.OK);
+
+        Page<Vacancy> vacancies = vacancyRepository.findByUserId(user.getId(),pageable);
+
+        List<ReadRequest> vacancyDTOList = new ArrayList<>();
+        for (Vacancy vacancy : vacancies.getContent())
+        {
+            ReadRequest vacancyDTO = new ReadRequest();
+            vacancyDTO.setId(vacancy.getId());
+            vacancyDTO.setName_vacancy(vacancy.getName_vacancy());
+            vacancyDTO.setDescription_vacancy(vacancy.getDescription_vacancy());
+            vacancyDTO.setConditions_and_requirements(vacancy.getConditions_and_requirements());
+            vacancyDTO.setWage(vacancy.getWage());
+            vacancyDTO.setSchedule(vacancy.getSchedule());
+            vacancyDTO.setStatus_vacancy(vacancy.getStatus_vacancy());
+            vacancyDTO.setUser(vacancy.getUser());
+            vacancyDTOList.add(vacancyDTO);
+        }
+
+        ListResponse vacancyListDTO = new ListResponse();
+        vacancyListDTO.setVacancies(vacancyDTOList);
+
+        return new ResponseEntity<>(vacancyListDTO, HttpStatus.OK);
     }
 
     public ResponseEntity<ListResponse> listVacanciesStatusOk(int pageNo, int pageSize)

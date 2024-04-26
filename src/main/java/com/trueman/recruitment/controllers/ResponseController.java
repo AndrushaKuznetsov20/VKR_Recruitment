@@ -1,5 +1,6 @@
 package com.trueman.recruitment.controllers;
 
+import com.trueman.recruitment.models.Response;
 import com.trueman.recruitment.models.User;
 import com.trueman.recruitment.models.Vacancy;
 import com.trueman.recruitment.repositories.VacancyRepository;
@@ -25,6 +26,13 @@ public class ResponseController {
     private final ResponseService responseService;
     private final VacancyRepository vacancyRepository;
 
+    @Operation(summary = "Метод получения списка откликов на определённую вакансию")
+    @GetMapping("/listResponse/{vacancyId}")
+    @PreAuthorize("hasRole('EMPLOYER')")
+    public ResponseEntity<List<Response>> listResponse(@PathVariable("vacancyId") Long vacancyId)
+    {
+        return responseService.listResponse(vacancyId);
+    }
     @Operation(summary = "Метод получения списка пользователей, которые откликнулись на определённую вакансию")
     @GetMapping("/listUsers/{vacancyId}")
     @PreAuthorize("hasRole('EMPLOYER')")

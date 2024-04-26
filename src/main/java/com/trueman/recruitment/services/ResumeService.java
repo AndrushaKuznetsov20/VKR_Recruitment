@@ -59,21 +59,49 @@ public class ResumeService {
         return new ResponseEntity<>(listResponseDTO, HttpStatus.OK);
     }
 
-    public ResponseEntity<Optional<Resume>> myResume()
+    public ResponseEntity<?> myResume()
     {
         User user = userService.getCurrentUser();
         Long userId = user.getId();
 
         Optional<Resume> resume = resumeRepository.findByUserId(userId);
 
-        return new ResponseEntity<>(resume,HttpStatus.OK);
+        if(resume == null) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        else {
+            return new ResponseEntity<>(resume,HttpStatus.OK);
+        }
     }
 
-    public ResponseEntity<List<Resume>> getListResumesStatusOk()
+    public ResponseEntity<ListResponse> getListResumesStatusOk(int pageNo, int pageSize)
     {
-        List<Resume> resumes;
-        resumes = resumeRepository.findAllStatusOk();
-        return new ResponseEntity<>(resumes, HttpStatus.OK);
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Page<Resume> resumes = resumeRepository.findAllStatusOk(pageable);
+
+        List<ReadRequest> resumeDTOlList = new ArrayList<>();
+
+        for(Resume resume : resumes.getContent())
+        {
+            ReadRequest resumeDTO = new ReadRequest();
+            resumeDTO.setId(resume.getId());
+            resumeDTO.setFullName(resume.getFullName());
+            resumeDTO.setBirthDate(resume.getBirthDate());
+            resumeDTO.setAge(resume.getAge());
+            resumeDTO.setCity(resume.getCity());
+            resumeDTO.setSkills(resume.getSkills());
+            resumeDTO.setEducation(resume.getEducation());
+            resumeDTO.setOtherInfo(resume.getOtherInfo());
+            resumeDTO.setStatusResume(resume.getStatusResume());
+            resumeDTO.setUser(resume.getUser());
+            resumeDTOlList.add(resumeDTO);
+        }
+
+        ListResponse listResponseDTO = new ListResponse();
+        listResponseDTO.setResumes(resumeDTOlList);
+
+
+        return new ResponseEntity<>(listResponseDTO, HttpStatus.OK);
     }
 
     public ResponseEntity<String> createResume(CreateRequest createRequest)

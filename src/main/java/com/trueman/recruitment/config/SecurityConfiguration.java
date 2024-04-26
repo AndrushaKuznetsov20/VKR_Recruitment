@@ -75,11 +75,11 @@ public class SecurityConfiguration {
                         .requestMatchers("/response/setStatusInvitation").hasRole("EMPLOYER")
 
                         .requestMatchers("/resume/list").permitAll()
-                        .requestMatchers("/resume/myResume").permitAll()
+                        .requestMatchers("/resume/myResume").hasRole("USER")
                         .requestMatchers("/resume/listResumeStatusOk").permitAll()
-                        .requestMatchers("/resume/create").permitAll()
-                        .requestMatchers("/resume/update").permitAll()
-                        .requestMatchers("/resume/delete").permitAll()
+                        .requestMatchers("/resume/create").hasRole("USER")
+                        .requestMatchers("/resume/update").hasRole("USER")
+                        .requestMatchers("/resume/delete").hasRole("USER")
                         .requestMatchers("/resume/setStatusOk").permitAll()
                         .requestMatchers("/resume/setStatusBlock").permitAll()
 

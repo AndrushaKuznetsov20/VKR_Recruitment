@@ -24,6 +24,13 @@ public class ResponseService {
     private final ResponseRepository responseRepository;
     private final UserService userService;
 
+    public ResponseEntity<List<Response>> listResponse(Long vacancyId)
+    {
+        List<Response> responses = responseRepository.findByVacancyId(vacancyId);
+
+        return new ResponseEntity<>(responses,HttpStatus.OK);
+    }
+
     public ResponseEntity<List<User>> listUsers(Long vacancyId)
     {
         List<Response> responses = responseRepository.findByVacancyId(vacancyId);
