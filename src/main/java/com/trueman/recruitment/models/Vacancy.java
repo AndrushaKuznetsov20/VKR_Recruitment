@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jdk.jfr.Description;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
@@ -48,7 +49,7 @@ public class Vacancy {
 
     @Description("Дата создания вакансии")
     @Column(name = "createDateTime")
-    private LocalDateTime createDateTime;
+    private LocalDate createDateTime;
 
     @Description("Пользователь, создавший данную вакансию")
     @JsonIgnore
@@ -58,6 +59,6 @@ public class Vacancy {
 
     public void setCreateDateTime()
     {
-        this.createDateTime = LocalDateTime.now();
+        this.createDateTime = LocalDate.now();
     }
 }

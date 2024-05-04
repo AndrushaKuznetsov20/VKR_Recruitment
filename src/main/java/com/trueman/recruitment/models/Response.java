@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jdk.jfr.Description;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class Response {
 
     @Description("Дата осуществления отклика")
     @Column(name = "currentDateTime")
-    private LocalDateTime currentDateTime;
+    private LocalDate currentDate;
 
     @Description("Статус отклика")
     @Column(name = "statusResponse")
@@ -41,6 +42,6 @@ public class Response {
 
     public void setCurrentDateTime()
     {
-        this.currentDateTime = LocalDateTime.now();
+        this.currentDate = LocalDate.now();
     }
 }

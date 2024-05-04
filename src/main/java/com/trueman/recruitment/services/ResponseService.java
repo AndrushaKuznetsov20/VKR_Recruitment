@@ -7,6 +7,9 @@ import com.trueman.recruitment.repositories.ResponseRepository;
 import com.trueman.recruitment.repositories.UserRepository;
 import com.trueman.recruitment.repositories.VacancyRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -44,13 +47,17 @@ public class ResponseService {
         return new ResponseEntity<>(userList,HttpStatus.OK);
     }
 
-    public ResponseEntity<List<Vacancy>> listVacancy(Long userId)
+    public ResponseEntity<List<Vacancy>> listVacancy(int pageNo, int pageSize)
     {
-        List<Response> responses = responseRepository.findByUserId(userId);
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+
+        User user = userService.getCurrentUser();
+
+        Page<Response> responses = responseRepository.findByUserId(user.getId(),pageable);
 
         List<Vacancy> vacancyList = new ArrayList<>();
 
-        for(Response response : responses)
+        for(Response response : responses.getContent())
         {
             vacancyList.add(response.getVacancy());
         }
@@ -83,9 +90,10 @@ public class ResponseService {
         return ResponseEntity.ok("Отклик успешно оставлен!");
     }
 
-    public ResponseEntity<String> deleteResponse(Long userId, Long vacancyId)
+    public ResponseEntity<String> deleteResponse(Long vacancyId)
     {
-        Response response = responseRepository.findByUserIdAndVacancyId(userId, vacancyId);
+        User user = userService.getCurrentUser();
+        Response response = responseRepository.findByUserIdAndVacancyId(user.getId(), vacancyId);
         responseRepository.delete(response);
         return ResponseEntity.ok("Отклик успешно удалён!");
     }

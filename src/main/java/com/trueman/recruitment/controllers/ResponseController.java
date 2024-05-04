@@ -42,11 +42,12 @@ public class ResponseController {
     }
 
     @Operation(summary = "Получение списка вакансий на которые определённый пользователь оставил отклики")
-    @GetMapping("/listVacancy/{userId}")
+    @GetMapping("/listVacancy/{pageNo}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<List<Vacancy>> listVacancy(@PathVariable("userId") Long userId)
+    public ResponseEntity<List<Vacancy>> listVacancy(@PathVariable("pageNo") int pageNo)
     {
-        return responseService.listVacancy(userId);
+        int pageSize = 8;
+        return responseService.listVacancy(pageNo, pageSize);
     }
 
     @Operation(summary = "Метод создания отклика")
@@ -58,11 +59,11 @@ public class ResponseController {
     }
 
     @Operation(summary = "Метод удаления отклика")
-    @DeleteMapping("/delete/{userId}/{vacancyId}")
+    @DeleteMapping("/delete/{vacancyId}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<String> deleteResponse(@PathVariable("userId") Long userId, @PathVariable("vacancyId") Long vacancyId)
+    public ResponseEntity<String> deleteResponse(@PathVariable("vacancyId") Long vacancyId)
     {
-        return responseService.deleteResponse(userId, vacancyId);
+        return responseService.deleteResponse(vacancyId);
     }
 
     @Operation(summary = "Метод установки статуса 'Самоотказ'")

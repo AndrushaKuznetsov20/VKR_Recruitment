@@ -138,6 +138,7 @@ public class ResumeService {
         resume.setEducation(updateRequest.getEducation());
         resume.setOtherInfo(updateRequest.getOtherInfo());
 
+        resume.calculationAge();
         resumeRepository.save(resume);
 
         return ResponseEntity.ok("Данные резюме успешно обновлены!");
