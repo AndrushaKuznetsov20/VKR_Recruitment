@@ -11,6 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:8092")
 @RestController
@@ -20,6 +21,14 @@ import java.time.LocalDate;
 public class MetricsReportingHistoryController {
 
     private final MetricsReportingHistoryService metricsReportingHistoryService;
+
+    @Operation(summary = "Вывод списка отчётов")
+    @GetMapping("/getAllMetricsReportingHistory")
+    @PreAuthorize("hasRole('EMPLOYER')")
+    public ResponseEntity<List<MetricsReportingHistory>> getAllMetricsReportingHistory()
+    {
+        return metricsReportingHistoryService.getAllMetricsReportingHistory();
+    }
 
     @Operation(summary = "Создание отчёта")
     @PostMapping("/create")
