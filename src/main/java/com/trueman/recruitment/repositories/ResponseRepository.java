@@ -22,27 +22,38 @@ public interface ResponseRepository extends JpaRepository<Response, Long> {
                        @Param("endDate") LocalDate endDate,
                        @Param("vacancyId") Long vacancyId);
 
-//    @Query("SELECT r FROM Response r WHERE r.currentDate >= :startDate AND r.currentDate <= :endDate")
-//    int findAll(@Param("startDate") LocalDate startDate,
-//                           @Param("endDate") LocalDate endDate);
-//
+    @Query("SELECT COUNT(r) FROM Response r WHERE r.vacancy.id =:vacancyId")
+    int vacancyResponseCount(@Param("vacancyId") Long vacancyId);
+
     @Query("SELECT COUNT(r) FROM Response r WHERE r.currentDate >= :startDate AND r.currentDate <= :endDate AND r.vacancy.id =:vacancyId AND r.statusResponse = 'Самоотказ!'")
     int countSelfDanial(@Param("startDate") LocalDate startDate,
                         @Param("endDate") LocalDate endDate,
                         @Param("vacancyId") Long vacancyId);
+
+    @Query("SELECT COUNT(r) FROM Response r WHERE r.vacancy.id =:vacancyId AND r.statusResponse = 'Самоотказ!'")
+    int vacancySelfDanialCount(@Param("vacancyId") Long vacancyId);
 
     @Query("SELECT COUNT(r) FROM Response r WHERE r.currentDate >= :startDate AND r.currentDate <= :endDate AND r.vacancy.id =:vacancyId AND r.statusResponse = 'Отказ работодателя!'")
     int countRefusalEmployer(@Param("startDate") LocalDate startDate,
                              @Param("endDate") LocalDate endDate,
                              @Param("vacancyId") Long vacancyId);
 
+    @Query("SELECT COUNT(r) FROM Response r WHERE r.vacancy.id =:vacancyId AND r.statusResponse = 'Отказ работодателя!'")
+    int vacancyRefusalEmployerCount(@Param("vacancyId") Long vacancyId);
+
     @Query("SELECT COUNT(r) FROM Response r WHERE r.currentDate >= :startDate AND r.currentDate <= :endDate AND r.vacancy.id =:vacancyId AND r.statusResponse = 'Релевантный отклик!'")
     int countRelevantResponses(@Param("startDate") LocalDate startDate,
                                @Param("endDate") LocalDate endDate,
                                @Param("vacancyId") Long vacancyId);
 
+    @Query("SELECT COUNT(r) FROM Response r WHERE r.vacancy.id =:vacancyId AND r.statusResponse = 'Релевантный отклик!'")
+    int vacancyRelevantResponsesCount(@Param("vacancyId") Long vacancyId);
+
     @Query("SELECT COUNT(r) FROM Response r WHERE r.currentDate >= :startDate AND r.currentDate <= :endDate AND r.vacancy.id =:vacancyId AND r.statusResponse = 'Кандидат приглашён!'")
     int сountInvitation(@Param("startDate") LocalDate startDate,
                         @Param("endDate") LocalDate endDate,
                         @Param("vacancyId") Long vacancyId);
+
+    @Query("SELECT COUNT(r) FROM Response r WHERE r.vacancy.id =:vacancyId AND r.statusResponse = 'Кандидат приглашён!'")
+    int vacancyInvitationCount(@Param("vacancyId") Long vacancyId);
 }

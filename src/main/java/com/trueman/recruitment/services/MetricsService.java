@@ -30,9 +30,9 @@ public class MetricsService {
         return ResponseEntity.ok(count);
     }
 
-    public ResponseEntity<Integer> getVacancyResponseCount(LocalDate startDate, LocalDate endDate, Long vacancyId)
+    public ResponseEntity<Integer> getVacancyResponseCount(Long vacancyId)
     {
-        int count = responseRepository.countResponses(startDate, endDate, vacancyId);
+        int count = responseRepository.vacancyResponseCount(vacancyId);
 
         return ResponseEntity.ok(count);
     }
@@ -51,9 +51,9 @@ public class MetricsService {
         return ResponseEntity.ok(count);
     }
 
-    public ResponseEntity<Integer> getVacancySelfDanialCount(LocalDate startDate, LocalDate endDate, Long vacancyId)
+    public ResponseEntity<Integer> getVacancySelfDanialCount(Long vacancyId)
     {
-        int count = responseRepository.countSelfDanial(startDate, endDate, vacancyId);
+        int count = responseRepository.vacancySelfDanialCount(vacancyId);
 
         return ResponseEntity.ok(count);
     }
@@ -73,9 +73,9 @@ public class MetricsService {
     }
 
 
-    public ResponseEntity<Integer> getCountRefusalEmployer(LocalDate startDate, LocalDate endDate, Long vacancyId)
+    public ResponseEntity<Integer> getCountRefusalEmployer(Long vacancyId)
     {
-        int count = responseRepository.countRefusalEmployer(startDate, endDate, vacancyId);
+        int count = responseRepository.vacancyRefusalEmployerCount(vacancyId);
 
         return ResponseEntity.ok(count);
     }
@@ -95,9 +95,9 @@ public class MetricsService {
     }
 
 
-    public ResponseEntity<Integer> getCountRelevantResponses(LocalDate startDate, LocalDate endDate, Long vacancyId)
+    public ResponseEntity<Integer> getCountRelevantResponses(Long vacancyId)
     {
-        int count = responseRepository.countRelevantResponses(startDate, endDate, vacancyId);
+        int count = responseRepository.vacancyRelevantResponsesCount(vacancyId);
 
         return ResponseEntity.ok(count);
     }
@@ -117,9 +117,9 @@ public class MetricsService {
     }
 
 
-    public ResponseEntity<Integer> getСountInvitation(LocalDate startDate, LocalDate endDate, Long vacancyId)
+    public ResponseEntity<Integer> getСountInvitation(Long vacancyId)
     {
-        int count = responseRepository.сountInvitation(startDate, endDate, vacancyId);
+        int count = responseRepository.vacancyInvitationCount(vacancyId);
 
         return ResponseEntity.ok(count);
     }

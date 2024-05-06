@@ -38,13 +38,11 @@ public class MetricsController {
     }
 
     @Operation(summary = "Расчёт количества откликов на определённую вакансию")
-    @GetMapping("/vacancyResponseCount/{startDate}/{endDate}/{vacancyId}")
+    @GetMapping("/vacancyResponseCount/{vacancyId}")
     @PreAuthorize("hasRole('EMPLOYER')")
-    public ResponseEntity<Integer> vacancyResponseCount(@DateTimeFormat(pattern = "yyyy-MM-dd") @PathVariable("startDate") LocalDate startDate,
-                                                        @DateTimeFormat(pattern = "yyyy-MM-dd") @PathVariable("endDate") LocalDate endDate,
-                                                        @PathVariable("vacancyId") Long vacancyId)
+    public ResponseEntity<Integer> vacancyResponseCount(@PathVariable("vacancyId") Long vacancyId)
     {
-        return metricsService.getVacancyResponseCount(startDate, endDate, vacancyId);
+        return metricsService.getVacancyResponseCount(vacancyId);
     }
 
     @Operation(summary = "Расчёт общего количества откликов за определённый период времени")
@@ -58,13 +56,11 @@ public class MetricsController {
     }
 
     @Operation(summary = "Расчёт количества самоотказов на определённую вакансию")
-    @GetMapping("/vacancySelfDanialCount/{startDate}/{endDate}/{vacancyId}")
+    @GetMapping("/vacancySelfDanialCount/{vacancyId}")
     @PreAuthorize("hasRole('EMPLOYER')")
-    public ResponseEntity<Integer> vacancySelfDanialCount(@DateTimeFormat(pattern = "yyyy-MM-dd") @PathVariable("startDate") LocalDate startDate,
-                                                          @DateTimeFormat(pattern = "yyyy-MM-dd") @PathVariable("endDate") LocalDate endDate,
-                                                          @PathVariable("vacancyId") Long vacancyId)
+    public ResponseEntity<Integer> vacancySelfDanialCount(@PathVariable("vacancyId") Long vacancyId)
     {
-        return metricsService.getVacancySelfDanialCount(startDate, endDate, vacancyId);
+        return metricsService.getVacancySelfDanialCount(vacancyId);
     }
 
     @Operation(summary = "Расчёт общего количества самоотказов за определённый период времени")
@@ -77,13 +73,11 @@ public class MetricsController {
     }
 
     @Operation(summary = "Расчёт количества отказов работодателя на определённую вакансию")
-    @GetMapping("/vacancyRefusalEmployerCount/{startDate}/{endDate}/{vacancyId}")
+    @GetMapping("/vacancyRefusalEmployerCount/{vacancyId}")
     @PreAuthorize("hasRole('EMPLOYER')")
-    public ResponseEntity<Integer> vacancyRefusalEmployerCount(@DateTimeFormat(pattern = "yyyy-MM-dd") @PathVariable("startDate") LocalDate startDate,
-                                                               @DateTimeFormat(pattern = "yyyy-MM-dd") @PathVariable("endDate") LocalDate endDate,
-                                                               @PathVariable("vacancyId") Long vacancyId)
+    public ResponseEntity<Integer> vacancyRefusalEmployerCount(@PathVariable("vacancyId") Long vacancyId)
     {
-        return metricsService.getCountRefusalEmployer(startDate, endDate, vacancyId);
+        return metricsService.getCountRefusalEmployer(vacancyId);
     }
 
     @Operation(summary = "Расчёт общего количества отказов работодателя за определённый период времени")
@@ -97,13 +91,11 @@ public class MetricsController {
 
 
     @Operation(summary = "Расчёт количества релевантных откликов на определённую вакансию")
-    @GetMapping("/vacancyRelevantResponsesCount/{startDate}/{endDate}/{vacancyId}")
+    @GetMapping("/vacancyRelevantResponsesCount/{vacancyId}")
     @PreAuthorize("hasRole('EMPLOYER')")
-    public ResponseEntity<Integer> vacancyRelevantResponsesCount(@DateTimeFormat(pattern = "yyyy-MM-dd") @PathVariable("startDate") LocalDate startDate,
-                                                                 @DateTimeFormat(pattern = "yyyy-MM-dd") @PathVariable("endDate") LocalDate endDate,
-                                                                 @PathVariable("vacancyId") Long vacancyId)
+    public ResponseEntity<Integer> vacancyRelevantResponsesCount(@PathVariable("vacancyId") Long vacancyId)
     {
-        return metricsService.getCountRelevantResponses(startDate, endDate, vacancyId);
+        return metricsService.getCountRelevantResponses(vacancyId);
     }
 
     @Operation(summary = "Расчёт общего количества релевантных откликов за определённый период")
@@ -116,13 +108,11 @@ public class MetricsController {
     }
 
     @Operation(summary = "Расчёт количества приглашений на определённую вакансию")
-    @GetMapping("/countInvitation/{startDate}/{endDate}/{vacancyId}")
+    @GetMapping("/countInvitation/{vacancyId}")
     @PreAuthorize("hasRole('EMPLOYER')")
-    public ResponseEntity<Integer> vacancyInvitationCount(@DateTimeFormat(pattern = "yyyy-MM-dd") @PathVariable("startDate") LocalDate startDate,
-                                                          @DateTimeFormat(pattern = "yyyy-MM-dd") @PathVariable("endDate") LocalDate endDate,
-                                                          @PathVariable("vacancyId") Long vacancyId)
+    public ResponseEntity<Integer> vacancyInvitationCount(@PathVariable("vacancyId") Long vacancyId)
     {
-        return metricsService.getСountInvitation(startDate, endDate, vacancyId);
+        return metricsService.getСountInvitation(vacancyId);
     }
 
     @Operation(summary = "Расчёт количества приглашений за определённый период времени")
