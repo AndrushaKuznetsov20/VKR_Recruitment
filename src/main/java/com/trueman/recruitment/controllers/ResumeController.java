@@ -37,12 +37,19 @@ public class ResumeController {
         return resumeService.getAllResumes(pageNo, pageSize);
     }
 
-    @Operation(summary = "Получение резюме по Id")
+    @Operation(summary = "Получение резюме")
     @GetMapping("/myResume")
-    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> getMyResume()
     {
         return resumeService.myResume();
+    }
+
+    @Operation(summary = "Получение резюме по Id")
+    @GetMapping("/getResumeById/{id}")
+    @PreAuthorize("hasRole('EMPLOYER')")
+    public ResponseEntity<?> getResumeById(@PathVariable("id") Long id)
+    {
+        return resumeService.getResumeById(id);
     }
 
     @Operation(summary = "Получение списка опубликованных резюме")

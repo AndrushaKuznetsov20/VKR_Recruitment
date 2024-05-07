@@ -75,7 +75,8 @@ public class SecurityConfiguration {
                         .requestMatchers("/response/setStatusInvitation").hasRole("EMPLOYER")
 
                         .requestMatchers("/resume/list").permitAll()
-                        .requestMatchers("/resume/myResume").hasRole("USER")
+                        .requestMatchers("/resume/myResume").permitAll()
+                        .requestMatchers("/resume/getResumeById").hasRole("EMPLOYER")
                         .requestMatchers("/resume/listResumeStatusOk").permitAll()
                         .requestMatchers("/resume/create").hasRole("USER")
                         .requestMatchers("/resume/update").hasRole("USER")

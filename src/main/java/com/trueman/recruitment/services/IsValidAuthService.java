@@ -39,13 +39,13 @@ public class IsValidAuthService {
         }
 
     }
-    public ResponseEntity<?> isValidRegister(SignUpRequest signUpRequest)
+    public ResponseEntity<?> isValidRegister(SignUpRequest signUpRequest, String selectedRole)
     {
         if(!userRepository.existsByUsername(signUpRequest.getUsername()))
         {
             if(!userRepository.existsByEmail(signUpRequest.getEmail()))
             {
-                authenticationService.signUp(signUpRequest);
+                authenticationService.signUp(signUpRequest, selectedRole);
                 return ResponseEntity.ok("Регистрация прошла успешно!");
             }
             else

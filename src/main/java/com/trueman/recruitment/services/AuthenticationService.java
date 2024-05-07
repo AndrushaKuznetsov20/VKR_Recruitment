@@ -20,14 +20,22 @@ public class AuthenticationService {
     private final PasswordEncoderService passwordEncoderService;
     private final AuthenticationManager authenticationManager;
 
-    public JwtAuthenticationResponse signUp(SignUpRequest request) {
+    public JwtAuthenticationResponse signUp(SignUpRequest request, String selectedRole) {
 
         var user = User.builder()
                 .username(request.getUsername())
                 .email(request.getEmail())
                 .password(passwordEncoderService.passwordEncoder().encode(request.getPassword()))
-                .role(Role.ROLE_USER)
+//                .role(Role.ROLE_USER)
                 .build();
+
+        if(selectedRole.equals("USER"))
+        {
+            user.setRole(Role.ROLE_USER);
+        }
+        else{
+            user.setRole(Role.ROLE_EMPLOYER);
+        }
 
         userService.create(user);
 

@@ -74,6 +74,18 @@ public class ResumeService {
         }
     }
 
+    public ResponseEntity<?> getResumeById(Long id)
+    {
+        Optional<Resume> resume = resumeRepository.findByUserId(id);
+
+        if(resume.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        else {
+            return new ResponseEntity<>(resume,HttpStatus.OK);
+        }
+    }
+
     public ResponseEntity<ListResponse> getListResumesStatusOk(int pageNo, int pageSize)
     {
         Pageable pageable = PageRequest.of(pageNo, pageSize);

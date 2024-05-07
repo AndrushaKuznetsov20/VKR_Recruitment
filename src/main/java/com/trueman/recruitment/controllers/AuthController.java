@@ -25,8 +25,9 @@ public class AuthController {
     private final AuthenticationService authenticationService;
     private final IsValidAuthService isValidAuthService;
     @Operation(summary = "Регистрация пользователя")
-    @PostMapping("/sign-up")
-    public ResponseEntity<?> signUp(@RequestBody @Valid SignUpRequest request, BindingResult bindingResult) {
+    @PostMapping("/sign-up/{selectedRole}")
+    public ResponseEntity<?> signUp(@RequestBody @Valid SignUpRequest request,
+                                    BindingResult bindingResult, @PathVariable("selectedRole") String selectedRole) {
 
         if (bindingResult.hasErrors())
         {
@@ -35,7 +36,7 @@ public class AuthController {
             return ResponseEntity.badRequest().body(errorMessage.toString());
         }
 
-        return isValidAuthService.isValidRegister(request);
+        return isValidAuthService.isValidRegister(request, selectedRole);
     }
 
     @Operation(summary = "Авторизация пользователя")
