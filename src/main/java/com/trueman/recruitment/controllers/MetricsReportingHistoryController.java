@@ -37,4 +37,12 @@ public class MetricsReportingHistoryController {
     {
         return metricsReportingHistoryService.createMetricsReporting(metricsReportingHistory);
     }
+
+    @Operation(summary = "Удаление отчёта")
+    @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasRole('EMPLOYER')")
+    public ResponseEntity<String> deleteMetricsReporting(@PathVariable("id") Long id)
+    {
+        return metricsReportingHistoryService.deleteMetricsReporting(id);
+    }
 }

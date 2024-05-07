@@ -29,6 +29,12 @@ public class MetricsReportingHistoryService {
     {
         metricsReportingHistoryRepository.save(metricsReportingHistory);
 
-        return ResponseEntity.ok("Данные успешно сохранены! Вы сможете посмотреть их в истории отчётов");
+        return ResponseEntity.ok("Данные успешно сохранены! Вы сможете посмотреть их в истории отчётов.");
+    }
+
+    public ResponseEntity<String> deleteMetricsReporting(Long id)
+    {
+        metricsReportingHistoryRepository.deleteById(id);
+        return ResponseEntity.ok("Отчёт успешно удалён из истории!");
     }
 }
