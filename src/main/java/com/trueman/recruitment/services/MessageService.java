@@ -6,11 +6,13 @@ import com.trueman.recruitment.models.Message;
 import com.trueman.recruitment.models.User;
 import com.trueman.recruitment.models.Vacancy;
 import com.trueman.recruitment.repositories.MessageRepository;
+import com.trueman.recruitment.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -19,6 +21,9 @@ import java.util.List;
 public class MessageService {
 
     private final MessageRepository messageRepository;
+    private final UserService userService;
+    private final UserRepository userRepository;
+
     public ResponseEntity<String> sendMessage(SendMessage sendMessage, Long senderId, Long receiverId)
     {
         var message = Message.builder()
@@ -35,8 +40,22 @@ public class MessageService {
     public ResponseEntity<List<Message>> outputMessages(Long senderId, Long receiverId)
     {
         List<Message> messages;
-        messages = messageRepository.findBySenderIdAndReceiverId(senderId, receiverId);
+        messages = messageRepository.findBySenderIdAndReceiverIdOrderByCurrentDateTimeDesc(senderId, receiverId);
 
         return new ResponseEntity<>(messages, HttpStatus.OK);
+    }
+    public ResponseEntity<List<User>> listChats()
+    {
+        User user = userService.getCurrentUser();
+        List<Long> usersChats = messageRepository.findUserChats(user.getId());
+
+        List<User> users = new ArrayList<>();
+
+        for (Long userId : usersChats)
+        {
+            User findUser = userRepository.findByUserId(userId);
+            users.add(findUser);
+        }
+        return ResponseEntity.ok(users);
     }
 }

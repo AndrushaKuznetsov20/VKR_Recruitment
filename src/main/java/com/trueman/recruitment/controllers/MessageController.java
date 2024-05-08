@@ -2,6 +2,7 @@ package com.trueman.recruitment.controllers;
 
 import com.trueman.recruitment.dto.message.SendMessage;
 import com.trueman.recruitment.models.Message;
+import com.trueman.recruitment.models.User;
 import com.trueman.recruitment.services.MessageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -25,6 +26,13 @@ public class MessageController {
     public ResponseEntity<List<Message>> outputMessages(@PathVariable("senderId") Long senderId, @PathVariable("receiverId") Long receiverId)
     {
         return messageService.outputMessages(senderId, receiverId);
+    }
+
+    @Operation(summary = "Вывод списка чатов пользователя")
+    @GetMapping("/listChats")
+    public ResponseEntity<List<User>> listChats()
+    {
+        return messageService.listChats();
     }
 
     @Operation(summary = "Отправка сообщения")
