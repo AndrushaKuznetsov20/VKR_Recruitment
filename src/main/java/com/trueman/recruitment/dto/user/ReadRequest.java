@@ -7,8 +7,9 @@ import lombok.Data;
 public class ReadRequest {
     private Long id;
     private String username;
-    private String password;
     private String email;
+    private String number;
+    private String password;
     private boolean active;
     private Role role;
 }

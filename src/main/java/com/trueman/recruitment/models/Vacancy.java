@@ -52,9 +52,9 @@ public class Vacancy {
     private LocalDate createDateTime;
 
     @Description("Пользователь, создавший данную вакансию")
-    @JsonIgnore
+//    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn
     private User user;
 
     public void setCreateDateTime()

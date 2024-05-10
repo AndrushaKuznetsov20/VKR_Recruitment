@@ -8,7 +8,6 @@ import com.trueman.recruitment.models.enums.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,6 +25,7 @@ public class AuthenticationService {
                 .username(request.getUsername())
                 .email(request.getEmail())
                 .password(passwordEncoderService.passwordEncoder().encode(request.getPassword()))
+                .number(request.getNumber())
 //                .role(Role.ROLE_USER)
                 .build();
 

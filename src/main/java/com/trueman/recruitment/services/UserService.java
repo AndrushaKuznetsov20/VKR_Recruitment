@@ -40,6 +40,7 @@ public class UserService {
             userDTO.setUsername(user.getUsername());
             userDTO.setPassword(user.getPassword());
             userDTO.setEmail(user.getEmail());
+            userDTO.setNumber(user.getNumber());
             userDTO.setActive(user.isActive());
             userDTO.setRole(user.getRole());
 
@@ -76,6 +77,7 @@ public class UserService {
         user.setUsername(updateRequest.getUsername());
         user.setPassword(passwordEncoderService.passwordEncoder().encode(updateRequest.getPassword()));
         user.setEmail(updateRequest.getEmail());
+        user.setNumber(updateRequest.getNumber());
 
         userRepository.save(user);
 

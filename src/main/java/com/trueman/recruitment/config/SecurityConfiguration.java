@@ -86,6 +86,8 @@ public class SecurityConfiguration {
 
                         .requestMatchers("/metrics/**").hasRole("EMPLOYER")
 
+                        .requestMatchers("/responseToResume/**").hasRole("EMPLOYER")
+
                         .requestMatchers("/message/**").permitAll()
 
                         .anyRequest().authenticated())

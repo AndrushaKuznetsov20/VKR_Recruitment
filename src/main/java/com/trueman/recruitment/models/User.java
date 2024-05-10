@@ -1,6 +1,5 @@
 package com.trueman.recruitment.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.trueman.recruitment.models.enums.Role;
 import jakarta.persistence.*;
 import jdk.jfr.Description;
@@ -10,9 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -32,13 +29,17 @@ public class User implements UserDetails
     @Column(name = "username", unique = true, nullable = false)
     private String username;
 
-    @Description("Пароль")
-    @Column(name = "password", nullable = false)
-    private String password;
-
     @Description("Электронная почта")
     @Column(name = "email", unique = true, nullable = false)
     private String email;
+
+    @Description("Номер телефона")
+    @Column(name = "number", unique = true, nullable = false)
+    private String number;
+
+    @Description("Пароль")
+    @Column(name = "password", nullable = false)
+    private String password;
 
     @Description("Активность пользователя")
     @Column(name = "active")
