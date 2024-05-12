@@ -56,4 +56,5 @@ public interface ResponseRepository extends JpaRepository<Response, Long> {
 
     @Query("SELECT COUNT(r) FROM Response r WHERE r.vacancy.id =:vacancyId AND r.statusResponse = 'Кандидат приглашён!'")
     int vacancyInvitationCount(@Param("vacancyId") Long vacancyId);
+
 }

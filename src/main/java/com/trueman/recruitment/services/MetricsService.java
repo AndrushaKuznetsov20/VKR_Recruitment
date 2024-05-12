@@ -1,9 +1,12 @@
 package com.trueman.recruitment.services;
 
 import com.trueman.recruitment.models.Response;
+import com.trueman.recruitment.models.Resume;
 import com.trueman.recruitment.models.User;
 import com.trueman.recruitment.models.Vacancy;
 import com.trueman.recruitment.repositories.ResponseRepository;
+import com.trueman.recruitment.repositories.ResponseToResumeRepository;
+import com.trueman.recruitment.repositories.ResumeRepository;
 import com.trueman.recruitment.repositories.VacancyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +22,7 @@ public class MetricsService {
     private final VacancyRepository vacancyRepository;
     private final UserService userService;
     private final ResponseRepository responseRepository;
+    private final ResponseToResumeRepository responseToResumeRepository;
 
     public ResponseEntity<Integer> getCountVacancy(LocalDate startDate, LocalDate endDate)
     {
@@ -134,6 +138,16 @@ public class MetricsService {
         for(Vacancy vacancy : vacancyList) {
         count += responseRepository.сountInvitation(startDate, endDate, vacancy.getId());
         }
+
+        return ResponseEntity.ok(count);
+    }
+
+    public ResponseEntity<Integer> getAllCountFoundResume(LocalDate startDate, LocalDate endDate)
+    {
+
+        User user = userService.getCurrentUser();
+
+        int count = responseToResumeRepository.countAllFoundResume(startDate, endDate, user.getId());
 
         return ResponseEntity.ok(count);
     }

@@ -49,6 +49,10 @@ public class MetricsReportingHistory {
     @Column(name = "countInvitation")
     private int countInvitation;
 
+    @Description("Количество найденных резюме")
+    @Column(name = "countFoundResume")
+    private int countFoundResume;
+
     @Description("Идентификатор пользователя")
     @Column(name = "userId")
     private Long userId;

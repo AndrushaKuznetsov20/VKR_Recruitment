@@ -123,4 +123,13 @@ public class MetricsController {
     {
         return metricsService.getAllInvitation(startDate, endDate);
     }
+
+    @Operation(summary = "Расчёт количества найденных резюме за определённый период времени")
+    @GetMapping("/countAllFoundResume/{startDate}/{endDate}")
+    @PreAuthorize("hasRole('EMPLOYER')")
+    public ResponseEntity<Integer> countAllFoundResume(@DateTimeFormat(pattern = "yyyy-MM-dd") @PathVariable("startDate") LocalDate startDate,
+                                                       @DateTimeFormat(pattern = "yyyy-MM-dd") @PathVariable("endDate") LocalDate endDate)
+    {
+        return metricsService.getAllCountFoundResume(startDate, endDate);
+    }
 }
