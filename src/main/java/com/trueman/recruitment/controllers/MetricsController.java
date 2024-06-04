@@ -51,7 +51,6 @@ public class MetricsController {
     public ResponseEntity<Integer> countAllResponses(@DateTimeFormat(pattern = "yyyy-MM-dd") @PathVariable("startDate") LocalDate startDate,
                                                      @DateTimeFormat(pattern = "yyyy-MM-dd") @PathVariable("endDate") LocalDate endDate)
     {
-
         return metricsService.getAllResponses(startDate, endDate);
     }
 

@@ -26,6 +26,6 @@ public class UpdateRequest {
     @Size(min = 11, max = 11, message = "Длина номера телефона должна быть равна 11 символам")
     private String number;
 
-    @Schema(description = "Пароль", example = "Password_Example22_")
-    private String password;
+//    @Schema(description = "Пароль", example = "Password_Example22_")
+//    private String password;
 }

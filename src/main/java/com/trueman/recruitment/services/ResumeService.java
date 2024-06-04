@@ -186,14 +186,9 @@ public class ResumeService {
         return ResponseEntity.ok("Резюме успешно заблокировано!");
     }
 
-    public ResponseEntity<List<Resume>> getSearchResumes(String fullName, String city, String skills, String education, Integer minAge, Integer maxAge)
+    public ResponseEntity<List<Resume>> getSearchResumes(String city, String skills, String education, Integer minAge, Integer maxAge)
     {
         Specification<Resume> specification = Specification.where(null);
-
-        if(fullName != null && !fullName.isEmpty())
-        {
-            specification = specification.and(ResumeSpecification.findByFullName(fullName));
-        }
 
         if(city != null && !city.isEmpty())
         {

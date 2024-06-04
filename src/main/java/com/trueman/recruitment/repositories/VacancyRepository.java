@@ -27,6 +27,4 @@ public interface VacancyRepository extends JpaRepository<Vacancy, Long>, JpaSpec
                                     @Param("endDate") LocalDate endDate,
                                     @Param("userId") Long userId);
 
-//    @Query("SELECT v FROM Vacancy v WHERE v.status_vacancy = 'Опубликована!'")
-//    List<Vacancy> searchAllVacancyStatusOk(Specification specification);
 }

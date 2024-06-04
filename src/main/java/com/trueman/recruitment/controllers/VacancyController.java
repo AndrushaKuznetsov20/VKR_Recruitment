@@ -120,7 +120,7 @@ public class VacancyController {
 
     @Operation(summary = "Поиск вакансий по заданным критериям")
     @GetMapping("/searchVacancies")
-//    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<List<Vacancy>> searchVacancy(@RequestParam(required = false) String nameVacancy,
                                                        @RequestParam(required = false) String description,
                                                        @RequestParam(required = false) String schedule,

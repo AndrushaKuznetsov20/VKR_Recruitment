@@ -24,7 +24,7 @@ public class Vacancy {
     private Long id;
 
     @Description("Наименование вакансии")
-    @Column(name = "name_vacancy", unique = true, nullable = false)
+    @Column(name = "name_vacancy", nullable = false)
     private String name_vacancy;
 
     @Description("Описание вакансии")
@@ -52,7 +52,6 @@ public class Vacancy {
     private LocalDate createDateTime;
 
     @Description("Пользователь, создавший данную вакансию")
-//    @JsonIgnore
     @ManyToOne
     @JoinColumn
     private User user;

@@ -75,7 +75,7 @@ public class UserService {
         User user = getCurrentUser();
 
         user.setUsername(updateRequest.getUsername());
-        user.setPassword(passwordEncoderService.passwordEncoder().encode(updateRequest.getPassword()));
+//        user.setPassword(passwordEncoderService.passwordEncoder().encode(updateRequest.getPassword()));
         user.setEmail(updateRequest.getEmail());
         user.setNumber(updateRequest.getNumber());
 

@@ -115,14 +115,13 @@ public class ResumeController {
 
     @Operation(summary = "Поиск резюме по заданным параметрам")
     @GetMapping("/searchResumes")
-        @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<List<Resume>> searchResumes(@RequestParam(required = false) String fullName,
-                                                      @RequestParam(required = false) String city,
+    @PreAuthorize("hasRole('EMPLOYER')")
+    public ResponseEntity<List<Resume>> searchResumes(@RequestParam(required = false) String city,
                                                       @RequestParam(required = false) String skills,
                                                       @RequestParam(required = false) String education,
                                                       @RequestParam(required = false) Integer minAge,
                                                       @RequestParam(required = false) Integer maxAge)
     {
-        return resumeService.getSearchResumes(fullName,city,skills,education,minAge,maxAge);
+        return resumeService.getSearchResumes(city,skills,education,minAge,maxAge);
     }
 }
