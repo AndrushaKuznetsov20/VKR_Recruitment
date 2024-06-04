@@ -12,6 +12,16 @@ VOLUME /tmp
 COPY target/recruitment-0.0.1-SNAPSHOT.jar app.jar
 ENTRYPOINT ["java","-Xmx512m","-Xms256m","-jar","/app.jar"]
 
+FROM builder as final
+ENV SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/db_recruitment
+ENV SPRING_DATASOURCE_USERNAME=root
+ENV SPRING_DATASOURCE_PASSWORD=andreykuz2002
+COPY src/main/resources/application.properties /app/
+WORKDIR /app
+EXPOSE 8092
+CMD ["java", "-jar", "app.jar"]
+
+
 # Final stage
 #FROM builder as final
 #ENV SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/db_recruitment
