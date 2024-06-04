@@ -1,0 +1,31 @@
+# MySQL database stage
+FROM mysql:8.0 as db
+ENV MYSQL_ROOT_PASSWORD=andreykuz2002
+ENV MYSQL_DATABASE=db_recruitment
+COPY init.sql /docker-entrypoint-initdb.d/
+EXPOSE 3306
+
+# Builder stage for Java application
+ARG JAVA_VERSION=17
+FROM openjdk:${JAVA_VERSION}-jdk-slim as builder
+VOLUME /tmp
+COPY target/recruitment-0.0.1-SNAPSHOT.jar app.jar
+ENTRYPOINT ["java","-Xmx512m","-Xms256m","-jar","/app.jar"]
+
+# Final stage
+FROM builder as final
+ENV SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/db_recruitment
+ENV SPRING_DATASOURCE_USERNAME=root
+ENV SPRING_DATASOURCE_PASSWORD=andreykuz2002
+
+# Copy the application configuration
+COPY src/main/resources/application.properties /app/
+
+# Set the working directory
+WORKDIR /app
+
+# Expose the application port
+EXPOSE 8092
+
+# Start the application
+CMD ["java", "-jar", "app.jar"]
