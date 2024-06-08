@@ -5,4 +5,4 @@ ENV MYSQL_DATABASE=db_recruitment
 
 COPY init.sql /docker-entrypoint-initdb.d/
 
-EXPOSE 3306
+EXPOSE 3307

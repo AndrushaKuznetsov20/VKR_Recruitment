@@ -1,6 +1,6 @@
-CREATE DATABASE db_recruitment;
+CREATE DATABASE db_recruitment1;
 
-USE db_recruitment;
+USE db_recruitment1;
 
 CREATE TABLE users (
   id BIGINT AUTO_INCREMENT NOT NULL,
@@ -40,6 +40,19 @@ CREATE TABLE responsesToResume (
   CONSTRAINT FK_RESPONSESTORESUME_ON_USER FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
+CREATE TABLE vacancy (
+  id BIGINT AUTO_INCREMENT NOT NULL,
+  name_vacancy VARCHAR(255) NOT NULL,
+  description_vacancy VARCHAR(255) NOT NULL,
+  conditions_and_requirements VARCHAR(255) NOT NULL,
+  wage INT NULL,
+  schedule VARCHAR(255) NULL,
+  status_vacancy VARCHAR(255) NOT NULL,
+  createDateTime DATETIME NOT NULL,
+  user_id BIGINT NOT NULL,
+  CONSTRAINT pk_vacancy PRIMARY KEY (id),
+  CONSTRAINT FK_VACANCY_ON_USER FOREIGN KEY (user_id) REFERENCES users(id)
+);
 
 CREATE TABLE responses (
   id BIGINT AUTO_INCREMENT NOT NULL,
@@ -76,20 +89,6 @@ CREATE TABLE messages (
    receiver BIGINT NULL,
    date datetime NULL,
    CONSTRAINT pk_messages PRIMARY KEY (id)
-);
-
-CREATE TABLE vacancy (
-  id BIGINT AUTO_INCREMENT NOT NULL,
-  name_vacancy VARCHAR(255) NOT NULL,
-  description_vacancy VARCHAR(255) NOT NULL,
-  conditions_and_requirements VARCHAR(255) NOT NULL,
-  wage INT NULL,
-  schedule VARCHAR(255) NULL,
-  status_vacancy VARCHAR(255) NOT NULL,
-  createDateTime DATETIME NOT NULL,
-  user_id BIGINT NOT NULL,
-  CONSTRAINT pk_vacancy PRIMARY KEY (id),
-  CONSTRAINT FK_VACANCY_ON_USER FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 INSERT INTO users (username, email, number, password, active, role) VALUES
