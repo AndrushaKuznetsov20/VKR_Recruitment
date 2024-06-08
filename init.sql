@@ -91,3 +91,7 @@ CREATE TABLE vacancy (
   CONSTRAINT pk_vacancy PRIMARY KEY (id),
   CONSTRAINT FK_VACANCY_ON_USER FOREIGN KEY (user_id) REFERENCES users(id)
 );
+
+INSERT INTO users (username, email, number, password, active, role) VALUES
+  ('Admin', 'admin@mail.ru', '89209568731', 'root', 1, 'ROLE_ADMIN'),
+  ('Moder', 'moder@mail.ru', '89206295073', 'root', 1, 'ROLE_MODER');
