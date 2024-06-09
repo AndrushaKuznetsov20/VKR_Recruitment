@@ -67,6 +67,7 @@ public class ResponseService {
 
     public ResponseEntity<String> createResponse(Long vacancyId)
     {
+        String status_response_default = "Не обработан!";
         Vacancy vacancy = vacancyRepository.findById(vacancyId).orElse(null);
         User user = userService.getCurrentUser();
         Long userId = user.getId();
@@ -83,7 +84,7 @@ public class ResponseService {
         response.setUser(user);
         response.setVacancy(vacancy);
         response.setCurrentDateTime();
-        response.setStatusResponse("Не обработан!");
+        response.setStatusResponse(status_response_default);
 
         responseRepository.save(response);
 
