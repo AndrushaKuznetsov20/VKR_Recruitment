@@ -1,7 +1,5 @@
 package com.trueman.recruitment.controllers;
 
-import com.trueman.recruitment.models.Message;
-import com.trueman.recruitment.models.User;
 import com.trueman.recruitment.repositories.VacancyRepository;
 import com.trueman.recruitment.services.MetricsService;
 import com.trueman.recruitment.services.UserService;
@@ -14,8 +12,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:8092")
 @RestController

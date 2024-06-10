@@ -1,21 +1,14 @@
 package com.trueman.recruitment.controllers;
 
 import com.trueman.recruitment.dto.vacancy.CreateRequest;
-import com.trueman.recruitment.dto.vacancy.ReadRequest;
 import com.trueman.recruitment.dto.vacancy.ListResponse;
 import com.trueman.recruitment.dto.vacancy.UpdateRequest;
-import com.trueman.recruitment.models.Response;
-import com.trueman.recruitment.models.User;
 import com.trueman.recruitment.models.Vacancy;
-import com.trueman.recruitment.repositories.VacancyRepository;
-import com.trueman.recruitment.services.UserService;
 import com.trueman.recruitment.services.VacancyService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;

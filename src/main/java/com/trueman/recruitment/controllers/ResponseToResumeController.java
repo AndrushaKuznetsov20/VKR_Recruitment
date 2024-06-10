@@ -1,6 +1,5 @@
 package com.trueman.recruitment.controllers;
 
-import com.trueman.recruitment.models.ResponseToResume;
 import com.trueman.recruitment.models.Resume;
 import com.trueman.recruitment.services.ResponseToResumeService;
 import io.swagger.v3.oas.annotations.Operation;

@@ -5,7 +5,6 @@ import com.trueman.recruitment.models.User;
 import com.trueman.recruitment.repositories.MetricsReportingHistoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 

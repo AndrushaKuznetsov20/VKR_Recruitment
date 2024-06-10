@@ -1,10 +1,8 @@
 package com.trueman.recruitment.services;
 
 import com.trueman.recruitment.dto.message.SendMessage;
-import com.trueman.recruitment.dto.vacancy.CreateRequest;
 import com.trueman.recruitment.models.Message;
 import com.trueman.recruitment.models.User;
-import com.trueman.recruitment.models.Vacancy;
 import com.trueman.recruitment.repositories.MessageRepository;
 import com.trueman.recruitment.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;

@@ -6,7 +6,6 @@ import com.trueman.recruitment.dto.resume.ReadRequest;
 import com.trueman.recruitment.dto.resume.UpdateRequest;
 import com.trueman.recruitment.models.Resume;
 import com.trueman.recruitment.models.User;
-import com.trueman.recruitment.models.Vacancy;
 import com.trueman.recruitment.repositories.ResumeRepository;
 import com.trueman.recruitment.specification.ResumeSpecification;
 import lombok.RequiredArgsConstructor;
